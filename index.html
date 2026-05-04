@@ -550,17 +550,6 @@
       transform: translateY(0) scale(1);
       transform-origin: top center;
       transition: border-color .3s ease, background .3s ease, box-shadow .3s ease;
-      will-change: opacity, transform;
-    }
-
-    .motion-ready .issue {
-      opacity: 0;
-      transform: perspective(900px) translateY(44px) rotateX(9deg) scale(.965);
-    }
-
-    .issue.visible {
-      opacity: 1;
-      animation: cardReveal .82s cubic-bezier(.22,1,.36,1) var(--reveal-delay, 0ms) both;
     }
 
     .issue:hover {
@@ -623,8 +612,6 @@
       isolation: isolate;
       opacity: 1;
       transform: translateY(0) scale(1);
-      transition: opacity .55s cubic-bezier(.22,1,.36,1), transform .55s cubic-bezier(.22,1,.36,1);
-      will-change: opacity, transform;
     }
 
     .visual::before {
@@ -633,16 +620,6 @@
       inset: 0;
       z-index: -1;
       background: linear-gradient(90deg, rgba(41,0,8,.74), rgba(41,0,8,.18) 58%, transparent);
-    }
-
-    .motion-ready .visual {
-      opacity: 0;
-      transform: translateY(28px) scale(.965);
-    }
-
-    .motion-ready .visual.visual-visible {
-      opacity: 1;
-      transform: translateY(0) scale(1);
     }
 
     .visual img {
@@ -655,10 +632,18 @@
       object-fit: contain;
       box-shadow: none;
       transform: translate(-50%, -50%) rotate(var(--r));
-      opacity: .96;
-      filter: drop-shadow(0 18px 24px rgba(0,0,0,.24)) saturate(1.06) contrast(1.02);
+      opacity: 0;
+      filter: drop-shadow(0 18px 24px rgba(0,0,0,.24)) saturate(1.06) contrast(1.02) blur(4px);
       background: transparent;
       pointer-events: none;
+      animation: stickerFloat var(--float-duration, 5200ms) ease-in-out var(--float-delay, 0ms) infinite;
+      transition: opacity .52s cubic-bezier(.22,1,.36,1), filter .52s cubic-bezier(.22,1,.36,1);
+      will-change: transform;
+    }
+
+    .visual img.svg-visible {
+      opacity: .96;
+      filter: drop-shadow(0 18px 24px rgba(0,0,0,.24)) saturate(1.06) contrast(1.02) blur(0);
     }
 
     .manifesto {
@@ -1030,30 +1015,20 @@
       50% { transform: translateY(26px); opacity: .45; }
     }
 
-    @keyframes cardReveal {
-      0% {
-        opacity: 0;
-        transform: perspective(900px) translateY(44px) rotateX(9deg) scale(.965);
+    @keyframes stickerFloat {
+      0%, 100% {
+        transform: translate(-50%, -50%) rotate(var(--r)) translateY(0) scale(1);
       }
-      100% {
-        opacity: 1;
-        transform: translateY(0) rotateX(0deg) scale(1);
+      50% {
+        transform: translate(-50%, -50%) rotate(var(--r)) translateY(calc(var(--float-y, 12px) * -1)) scale(var(--float-scale, 1.03));
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .issue,
-      .issue.visible,
-      .issue.visible {
+      .visual img {
         animation: none;
-        opacity: 1;
-        transform: none;
-      }
-
-      .visual {
-        opacity: 1;
-        transform: none;
-        transition: none;
+        opacity: .96;
+        filter: drop-shadow(0 18px 24px rgba(0,0,0,.24)) saturate(1.06) contrast(1.02);
       }
     }
 
@@ -1339,8 +1314,6 @@
   </footer>
 
   <script>
-    const canAnimateScroll = "IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (canAnimateScroll) document.documentElement.classList.add("motion-ready");
     const neonTitle = document.querySelector(".title-neon");
     const canFlickerTitle = neonTitle && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const randomBetween = (min, max) => Math.round(min + Math.random() * (max - min));
@@ -1529,7 +1502,11 @@
       const y = clamp(slot.y + randomBetween(-3, 3), 24, 76);
       const size = clamp(slot.s + randomBetween(-10, 12), 158, 204);
       const rotate = slot.r + randomBetween(-4, 4);
-      return `<img src="${img}" alt="" loading="lazy" decoding="async" style="--x:${x}%; --y:${y}%; --s:${size}px; --r:${rotate}deg; z-index:${index + 1};">`;
+      const floatDuration = randomBetween(4200, 7600);
+      const floatDelay = randomBetween(0, 2800) * -1;
+      const floatY = randomBetween(8, 20);
+      const floatScale = (100 + randomBetween(1, 5)) / 100;
+      return `<img src="${img}" alt="" loading="lazy" decoding="async" style="--x:${x}%; --y:${y}%; --s:${size}px; --r:${rotate}deg; --float-duration:${floatDuration}ms; --float-delay:${floatDelay}ms; --float-y:${floatY}px; --float-scale:${floatScale}; z-index:${index + 1};">`;
     };
     const makeVisualImages = kind => {
       const pool = visualAssets[kind] || visualAssets.ux;
@@ -1604,63 +1581,35 @@
     }
 
     function observeIssues() {
-      if (!canAnimateScroll) {
-        document.querySelectorAll(".issue").forEach(card => card.classList.add("visible"));
-        document.querySelectorAll(".visual").forEach(visual => visual.classList.add("visual-visible"));
+      document.querySelectorAll(".issue").forEach(card => card.classList.add("visible"));
+      updateSvgReveal();
+    }
+
+    let svgRevealFrame = 0;
+    const canRevealSvg = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function updateSvgReveal() {
+      if (!canRevealSvg) {
+        document.querySelectorAll(".visual img").forEach(img => img.classList.add("svg-visible"));
         return;
       }
-      updateCardReveal();
-      updateVisualReveal();
-    }
-
-    function updateCardReveal() {
-      if (!canAnimateScroll) return;
-      const trigger = window.innerHeight * .88;
-      document.querySelectorAll(".issue:not(.visible)").forEach(card => {
-        const rect = card.getBoundingClientRect();
-        if (rect.top < trigger && rect.bottom > 0) {
-          card.classList.add("visible");
-          if (scrollDirection === "down") {
-            const visual = card.querySelector(".visual");
-            if (visual) visual.classList.add("visual-visible");
-          }
-        }
-      });
-    }
-
-    let lastScrollY = window.pageYOffset;
-    let scrollDirection = "down";
-    let visualFrame = 0;
-
-    function updateVisualReveal() {
-      if (!canAnimateScroll) return;
-      cancelAnimationFrame(visualFrame);
-      visualFrame = requestAnimationFrame(() => {
-        updateCardReveal();
-        const currentScrollY = window.pageYOffset;
-        if (currentScrollY > lastScrollY) scrollDirection = "down";
-        if (currentScrollY < lastScrollY) scrollDirection = "up";
-        lastScrollY = currentScrollY;
-        document.querySelectorAll(".issue.visible .visual").forEach(visual => {
-          const rect = visual.getBoundingClientRect();
+      cancelAnimationFrame(svgRevealFrame);
+      svgRevealFrame = requestAnimationFrame(() => {
+        const viewportCenter = window.innerHeight / 2;
+        const activeDistance = window.innerHeight * .42;
+        document.querySelectorAll(".visual img").forEach(img => {
+          const rect = img.getBoundingClientRect();
           const inView = rect.bottom > 0 && rect.top < window.innerHeight;
-          if (!inView) return;
-          const center = rect.top + rect.height / 2;
-          const showLine = window.innerHeight * .78;
-          const hideLine = window.innerHeight * .34;
-          if (scrollDirection === "down" && center < showLine) {
-            visual.classList.add("visual-visible");
-          }
-          if (scrollDirection === "up" && center > hideLine) {
-            visual.classList.remove("visual-visible");
-          }
+          const imageCenter = rect.top + rect.height / 2;
+          const nearCenter = Math.abs(imageCenter - viewportCenter) < activeDistance;
+          img.classList.toggle("svg-visible", inView && nearCenter);
         });
       });
     }
 
-    window.addEventListener("scroll", updateVisualReveal, { passive: true });
-    window.addEventListener("resize", updateVisualReveal);
-    if (canAnimateScroll) setInterval(updateVisualReveal, 180);
+    window.addEventListener("scroll", updateSvgReveal, { passive: true });
+    window.addEventListener("resize", updateSvgReveal);
+    setInterval(updateSvgReveal, 220);
 
     document.querySelectorAll("[data-filter]").forEach(button => {
       button.addEventListener("click", () => {
