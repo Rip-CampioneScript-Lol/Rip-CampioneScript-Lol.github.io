@@ -6,7 +6,7 @@
   <title>Rip Campione Script</title>
   <meta name="theme-color" content="#ff243d">
   <meta property="og:title" content="Rip Campione Script">
-  <meta property="og:description" content="Todo lo que salió mal con Campione Script.">
+  <meta property="og:description" content="Todo lo que salió mal con Campione Script">
   <meta property="og:image" content="https://i.postimg.cc/6QvQCQZP/Anti-Hambreado-Script-Team.png">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:image" content="https://i.postimg.cc/6QvQCQZP/Anti-Hambreado-Script-Team.png">
@@ -174,9 +174,9 @@
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.08fr .92fr;
+      grid-template-columns: 1fr;
       gap: 34px;
-      align-items: center;
+      align-items: start;
     }
 
     .kicker {
@@ -196,7 +196,7 @@
     h1 {
       margin: 0;
       font-family: Anton, Impact, sans-serif;
-      font-size: clamp(48px, 9.5vw, 118px);
+      font-size: clamp(54px, 7.4vw, 112px);
       line-height: .88;
       letter-spacing: 0;
       text-transform: uppercase;
@@ -205,10 +205,44 @@
       overflow-wrap: break-word;
     }
 
-    h1 span {
+    h1 .title-danger {
       display: block;
       color: var(--red);
       text-shadow: 0 0 34px rgba(255, 36, 61, .45);
+    }
+
+    h1 .title-neon {
+      display: block;
+      color: #fff8ef;
+      text-shadow: none;
+      transition: opacity 90ms ease, filter 90ms ease;
+      will-change: opacity, filter;
+    }
+
+    h1 .title-neon.neon-dim {
+      opacity: .48;
+      filter: brightness(.72);
+    }
+
+    h1 .title-neon.neon-off {
+      opacity: .08;
+      filter: brightness(.36);
+    }
+
+    .hero-title-row {
+      position: relative;
+      display: grid;
+      gap: 16px;
+    }
+
+    .hero-title-art {
+      width: min(620px, 92vw);
+      height: clamp(210px, 28vw, 360px);
+      object-fit: cover;
+      object-position: right center;
+      filter: drop-shadow(0 20px 38px rgba(255, 36, 61, .18));
+      transform: rotate(-2deg);
+      animation: titleArtFloat 5.8s ease-in-out infinite;
     }
 
     .hero-copy {
@@ -262,6 +296,8 @@
     }
 
     .device {
+      width: min(470px, 100%);
+      justify-self: center;
       min-height: 660px;
       border-radius: 42px;
       padding: 14px;
@@ -582,6 +618,20 @@
       padding: 18px;
       display: grid;
       align-content: space-between;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      transition: opacity .55s cubic-bezier(.22,1,.36,1), transform .55s cubic-bezier(.22,1,.36,1);
+      will-change: opacity, transform;
+    }
+
+    .motion-ready .visual {
+      opacity: 0;
+      transform: translateY(28px) scale(.965);
+    }
+
+    .motion-ready .visual.visual-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
     }
 
     .visual img {
@@ -949,6 +999,11 @@
       50% { transform: perspective(900px) rotateX(2deg) rotateY(8deg) translateY(-16px); }
     }
 
+    @keyframes titleArtFloat {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-10px) rotate(2deg); }
+    }
+
     @keyframes pulse {
       70% { box-shadow: 0 0 0 14px rgba(255, 36, 61, 0); }
       100% { box-shadow: 0 0 0 0 rgba(255, 36, 61, 0); }
@@ -996,6 +1051,12 @@
         animation: none;
         opacity: 1;
         transform: none;
+      }
+
+      .visual {
+        opacity: 1;
+        transform: none;
+        transition: none;
       }
     }
 
@@ -1077,6 +1138,15 @@
         width: 100%;
       }
 
+      .hero-title-row {
+        gap: 18px;
+      }
+
+      .hero-title-art {
+        width: min(92vw, 430px);
+        height: 210px;
+      }
+
       .stats {
         grid-template-columns: 1fr;
       }
@@ -1148,8 +1218,11 @@
     <section class="hero shell">
       <div class="hero-grid">
         <div>
-          <div class="kicker">Después de leer esto no veras de la misma manera a Campione Script</div>
-          <h1>Todo lo que <span>salió mal</span> con Campione Script.</h1>
+          <div class="kicker">La cara hambreada de Campione Script</div>
+          <div class="hero-title-row">
+            <h1>Todo lo que <span class="title-danger">salió mal</span> con <span class="title-neon">Campione Script</span></h1>
+            <img class="hero-title-art" src="https://i.postimg.cc/DzTBHPcf/Rip-Campion-Script-Lol.png" alt="Rip Campione Script Lol" loading="eager" decoding="async">
+          </div>
           <p class="hero-copy">Una página anti-hambreado sobre la experiencia que muchos usuarios sienten cuando una comunidad de scripts se convierte en <strong>pasillos de anuncios, esperas, enlaces recortados y monetización antes que utilidad</strong>.</p>
           <div class="hero-actions">
             <a class="btn primary" href="#lista">Ver el expediente</a>
@@ -1268,6 +1341,57 @@
     const anti = "https://i.postimg.cc/6QvQCQZP/Anti-Hambreado-Script-Team.png";
     const canAnimateScroll = "IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (canAnimateScroll) document.documentElement.classList.add("motion-ready");
+    const neonTitle = document.querySelector(".title-neon");
+    const canFlickerTitle = neonTitle && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const randomBetween = (min, max) => Math.round(min + Math.random() * (max - min));
+
+    function setNeonState(state) {
+      if (!neonTitle) return;
+      neonTitle.classList.toggle("neon-dim", state === "dim");
+      neonTitle.classList.toggle("neon-off", state === "off");
+    }
+
+    function runNeonFlicker() {
+      if (!canFlickerTitle) return;
+      setNeonState("on");
+      const mode = Math.random();
+      if (mode < .46) {
+        setTimeout(runNeonFlicker, randomBetween(420, 1700));
+        return;
+      }
+      if (mode < .68) {
+        setNeonState("dim");
+        setTimeout(() => {
+          setNeonState("on");
+          setTimeout(runNeonFlicker, randomBetween(120, 760));
+        }, randomBetween(90, 520));
+        return;
+      }
+      if (mode < .84) {
+        setNeonState("off");
+        setTimeout(() => {
+          setNeonState("on");
+          setTimeout(runNeonFlicker, randomBetween(140, 980));
+        }, randomBetween(120, 850));
+        return;
+      }
+      const pulses = randomBetween(3, 8);
+      let step = 0;
+      const burst = () => {
+        const state = Math.random() < .58 ? "off" : "dim";
+        setNeonState(step % 2 === 0 ? state : "on");
+        step += 1;
+        if (step <= pulses * 2) {
+          setTimeout(burst, randomBetween(24, 115));
+        } else {
+          setNeonState("on");
+          setTimeout(runNeonFlicker, randomBetween(180, 1200));
+        }
+      };
+      burst();
+    }
+
+    runNeonFlicker();
     const issues = [
       ["monetizacion", "Era del enlace con peaje", "Cuando el usuario solo quiere llegar al script y termina atravesando anuncios, temporizadores y pestañas extra, la descarga deja de sentirse gratis y empieza a sentirse cobrada con tiempo.", "Monetización", "Peaje de enlace", "🧾"],
       ["ux", "El botón que nunca llega directo", "La primera fricción no es técnica: es emocional. Cada paso innecesario manda el mensaje de que el clic del usuario vale más que su comodidad.", "Experiencia", "Redirecciones", "🧭"],
@@ -1343,18 +1467,61 @@
     function observeIssues() {
       if (!canAnimateScroll) {
         document.querySelectorAll(".issue").forEach(card => card.classList.add("visible"));
+        document.querySelectorAll(".visual").forEach(visual => visual.classList.add("visual-visible"));
         return;
       }
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
+      updateCardReveal();
+      updateVisualReveal();
+    }
+
+    function updateCardReveal() {
+      if (!canAnimateScroll) return;
+      const trigger = window.innerHeight * .88;
+      document.querySelectorAll(".issue:not(.visible)").forEach(card => {
+        const rect = card.getBoundingClientRect();
+        if (rect.top < trigger && rect.bottom > 0) {
+          card.classList.add("visible");
+          if (scrollDirection === "down") {
+            const visual = card.querySelector(".visual");
+            if (visual) visual.classList.add("visual-visible");
+          }
+        }
+      });
+    }
+
+    let lastScrollY = window.pageYOffset;
+    let scrollDirection = "down";
+    let visualFrame = 0;
+
+    function updateVisualReveal() {
+      if (!canAnimateScroll) return;
+      cancelAnimationFrame(visualFrame);
+      visualFrame = requestAnimationFrame(() => {
+        updateCardReveal();
+        const currentScrollY = window.pageYOffset;
+        if (currentScrollY > lastScrollY) scrollDirection = "down";
+        if (currentScrollY < lastScrollY) scrollDirection = "up";
+        lastScrollY = currentScrollY;
+        document.querySelectorAll(".issue.visible .visual").forEach(visual => {
+          const rect = visual.getBoundingClientRect();
+          const inView = rect.bottom > 0 && rect.top < window.innerHeight;
+          if (!inView) return;
+          const center = rect.top + rect.height / 2;
+          const showLine = window.innerHeight * .78;
+          const hideLine = window.innerHeight * .34;
+          if (scrollDirection === "down" && center < showLine) {
+            visual.classList.add("visual-visible");
+          }
+          if (scrollDirection === "up" && center > hideLine) {
+            visual.classList.remove("visual-visible");
           }
         });
-      }, { threshold: .12 });
-      document.querySelectorAll(".issue").forEach(card => observer.observe(card));
+      });
     }
+
+    window.addEventListener("scroll", updateVisualReveal, { passive: true });
+    window.addEventListener("resize", updateVisualReveal);
+    if (canAnimateScroll) setInterval(updateVisualReveal, 180);
 
     document.querySelectorAll("[data-filter]").forEach(button => {
       button.addEventListener("click", () => {
