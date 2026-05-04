@@ -4,7 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rip Campione Script</title>
-  <link rel="icon" type="image/png" href="https://i.postimg.cc/6QvQCQZP/Anti-Hambreado-Script-Team.png">
+  <meta name="theme-color" content="#ff243d">
+  <meta property="og:title" content="Rip Campione Script">
+  <meta property="og:description" content="Todo lo que salió mal con Campione Script.">
+  <meta property="og:image" content="https://i.postimg.cc/6QvQCQZP/Anti-Hambreado-Script-Team.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://i.postimg.cc/6QvQCQZP/Anti-Hambreado-Script-Team.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.postimg.cc/6QvQCQZP/Anti-Hambreado-Script-Team.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="https://i.postimg.cc/6QvQCQZP/Anti-Hambreado-Script-Team.png">
+  <link rel="apple-touch-icon" href="https://i.postimg.cc/6QvQCQZP/Anti-Hambreado-Script-Team.png">
   <link rel="shortcut icon" type="image/png" href="https://i.postimg.cc/6QvQCQZP/Anti-Hambreado-Script-Team.png">
   <style>
     :root {
@@ -33,6 +41,7 @@
       min-height: 100%;
       overflow-y: scroll;
       overflow-x: hidden;
+      background: #090507;
     }
 
     body {
@@ -58,10 +67,31 @@
     .shell {
       width: min(1180px, calc(100% - 28px));
       margin: 0 auto;
+      max-width: 100%;
     }
 
     section[id] {
       scroll-margin-top: 110px;
+    }
+
+    #lista {
+      position: relative;
+      isolation: isolate;
+    }
+
+    #lista::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 100vw;
+      transform: translateX(-50%);
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(255, 36, 61, .18), transparent 28rem),
+        linear-gradient(180deg, rgba(42, 0, 9, .94), rgba(20, 0, 5, .98) 55%, rgba(34, 2, 8, .9));
     }
 
     .nav {
@@ -253,6 +283,8 @@
       border: 1px solid rgba(255,255,255,.18);
       position: relative;
       padding: 24px;
+      display: flex;
+      flex-direction: column;
     }
 
     .screen-top {
@@ -336,12 +368,11 @@
     }
 
     .receipt-stack {
-      position: absolute;
-      left: 24px;
-      right: 24px;
-      bottom: 24px;
+      position: static;
+      margin-top: auto;
       display: grid;
       gap: 10px;
+      padding-top: 22px;
     }
 
     .receipt {
@@ -421,19 +452,26 @@
       gap: 12px;
       flex-wrap: wrap;
       margin-bottom: 22px;
+      width: 100%;
+      max-width: 100%;
+      overflow: visible;
     }
 
     .segmented {
-      display: inline-grid;
-      grid-auto-flow: column;
+      display: flex;
       gap: 6px;
       padding: 6px;
       border-radius: 999px;
       background: rgba(255,255,255,.08);
       border: 1px solid rgba(255,255,255,.13);
+      width: min(100%, 560px);
+      max-width: 100%;
+      overflow: visible;
     }
 
     .segmented button {
+      flex: 1 1 0;
+      min-width: max-content;
       min-height: 36px;
       border: 0;
       border-radius: 999px;
@@ -442,6 +480,7 @@
       color: #f0d6d9;
       font-weight: 850;
       cursor: pointer;
+      white-space: nowrap;
     }
 
     .segmented button.active {
@@ -453,6 +492,9 @@
       display: grid;
       gap: 16px;
       counter-reset: issue;
+      width: 100%;
+      max-width: 100%;
+      overflow: visible;
     }
 
     .issue {
@@ -468,12 +510,19 @@
       overflow: hidden;
       opacity: 1;
       transform: translateY(0) scale(1);
-      transition: opacity .7s ease, transform .7s ease, border-color .3s ease, background .3s ease;
+      transform-origin: top center;
+      transition: border-color .3s ease, background .3s ease, box-shadow .3s ease;
+      will-change: opacity, transform;
+    }
+
+    .motion-ready .issue {
+      opacity: 0;
+      transform: perspective(900px) translateY(44px) rotateX(9deg) scale(.965);
     }
 
     .issue.visible {
       opacity: 1;
-      transform: translateY(0) scale(1);
+      animation: cardReveal .82s cubic-bezier(.22,1,.36,1) var(--reveal-delay, 0ms) both;
     }
 
     .issue:hover {
@@ -493,7 +542,7 @@
     }
 
     .number::before {
-      content: counter(issue, decimal-leading-zero);
+      content: attr(data-number);
     }
 
     .issue-body {
@@ -929,6 +978,27 @@
       50% { transform: translateY(26px); opacity: .45; }
     }
 
+    @keyframes cardReveal {
+      0% {
+        opacity: 0;
+        transform: perspective(900px) translateY(44px) rotateX(9deg) scale(.965);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg) scale(1);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .issue,
+      .issue.visible,
+      .issue.visible {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+
     @media (max-width: 920px) {
       .hero-grid,
       .issue-body,
@@ -1016,8 +1086,38 @@
         flex-direction: column;
       }
 
+      .timeline-controls {
+        display: flex;
+      }
+
+      .segmented {
+        width: 100%;
+        display: flex;
+        border-radius: 999px;
+        gap: 4px;
+        padding: 5px;
+      }
+
+      .segmented button {
+        min-width: 0;
+        min-height: 38px;
+        padding: 0 6px;
+        white-space: nowrap;
+        line-height: 1.1;
+        font-size: clamp(11px, 3.25vw, 13px);
+      }
+
       .visual {
         min-height: 180px;
+      }
+
+      .screen {
+        gap: 14px;
+      }
+
+      .receipt-stack {
+        margin-top: 18px;
+        padding-top: 12px;
       }
 
       .meme {
@@ -1040,8 +1140,7 @@
     <div class="navlinks">
       <a class="pill" href="#lista">La lista</a>
       <a class="pill" href="#manifiesto">Manifiesto</a>
-      <a class="pill" href="#meme">Meme final</a>
-      <a class="pill" href="https://www.youtube.com/@CAMPIONESCRIPT" target="_blank" rel="noreferrer">Canal</a>
+      <a class="pill" href="#meme">Reflexión</a>
     </div>
   </nav>
 
@@ -1049,7 +1148,7 @@
     <section class="hero shell">
       <div class="hero-grid">
         <div>
-          <div class="kicker">No afiliado con Campione Script · sátira crítica</div>
+          <div class="kicker">Después de leer esto no veras de la misma manera a Campione Script)</div>
           <h1>Todo lo que <span>salió mal</span> con Campione Script.</h1>
           <p class="hero-copy">Una página anti-hambreado sobre la experiencia que muchos usuarios sienten cuando una comunidad de scripts se convierte en <strong>pasillos de anuncios, esperas, enlaces recortados y monetización antes que utilidad</strong>.</p>
           <div class="hero-actions">
@@ -1075,8 +1174,8 @@
                 <small><span>Paciencia del usuario</span><span>12%</span></small>
                 <div class="bar"><div class="fill"></div></div>
               </div>
-              <div class="meter-card" style="--w: 97%">
-                <small><span>Hambre percibida</span><span>97%</span></small>
+              <div class="meter-card" style="--w: 100%">
+                <small><span>Hambre percibida</span><span>100%</span></small>
                 <div class="bar"><div class="fill"></div></div>
               </div>
             </div>
@@ -1218,8 +1317,9 @@
         const media = index % 4 === 0 ? `<img src="${index % 8 === 0 ? logo : anti}" alt="" loading="lazy" decoding="async">` : "";
         card.className = "issue";
         card.dataset.kind = item[0];
+        card.style.setProperty("--reveal-delay", `${Math.min(index % 5, 4) * 70}ms`);
         card.innerHTML = `
-          <div class="number"></div>
+          <div class="number" data-number="${String(index + 1).padStart(2, "0")}"></div>
           <div class="issue-body">
             <div>
               <h3>${item[1]}</h3>
@@ -1261,16 +1361,26 @@
         document.querySelectorAll("[data-filter]").forEach(item => item.classList.remove("active"));
         button.classList.add("active");
         renderIssues(button.dataset.filter);
+        const target = document.querySelector("#lista");
+        if (target) window.scrollTo({ top: target.getBoundingClientRect().top + window.pageYOffset - 128, left: 0, behavior: "auto" });
       });
     });
 
     const counters = document.querySelectorAll("[data-count]");
+    const easeOut = value => 1 - Math.pow(1 - value, 4);
     const counterObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
         const el = entry.target;
         const target = Number(el.dataset.count);
-        el.textContent = target;
+        const duration = 1200;
+        const start = performance.now();
+        const tick = now => {
+          const progress = Math.min((now - start) / duration, 1);
+          el.textContent = Math.round(target * easeOut(progress));
+          if (progress < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
         counterObserver.unobserve(el);
       });
     }, { threshold: .6 });
@@ -1284,7 +1394,7 @@
         if (!target) return;
         event.preventDefault();
         const top = target.getBoundingClientRect().top + window.pageYOffset - 92;
-        window.scrollTo({ top, behavior: "auto" });
+        window.scrollTo({ top, left: 0, behavior: "auto" });
       });
     });
 
