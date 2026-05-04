@@ -1024,6 +1024,105 @@
       }
     }
 
+    .infographics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 34px;
+      margin-top: 48px;
+    }
+
+    .infographic-card {
+      width: 100%;
+      border-radius: 42px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,.22);
+      background: linear-gradient(145deg, rgba(255,255,255,.18), rgba(255,255,255,.04));
+      box-shadow: 0 22px 58px rgba(0, 0, 0, .38);
+      transform-style: preserve-3d;
+      animation: floatPhone 7s ease-in-out infinite;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .card-hint {
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0 10px 8px;
+      transition: color 0.3s ease;
+      line-height: 1.4;
+    }
+
+    .infographic-card:hover .card-hint {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .infographic-card:nth-child(2) {
+      animation-delay: -3.5s;
+    }
+
+    .infographic-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 32px;
+      border: 1px solid rgba(255,255,255,.18);
+      background:
+        radial-gradient(circle at 30% 8%, rgba(255,255,255,.18), transparent 14rem),
+        linear-gradient(180deg, #2a0009, #0a0305);
+      object-fit: cover;
+      cursor: pointer;
+    }
+
+    .film-strip {
+      overflow: hidden;
+      padding: 34px 0;
+      background: var(--red);
+      width: 110vw;
+      margin-left: calc(50% - 55vw);
+      box-shadow: inset 0 10px 40px rgba(0,0,0,0.6);
+      margin-bottom: 60px;
+      transform: rotate(-2deg);
+      margin-top: 40px;
+      z-index: 10;
+      position: relative;
+    }
+
+    .film-strip-track {
+      display: flex;
+      gap: 24px;
+      width: max-content;
+      animation: filmScroll 15s linear infinite;
+    }
+
+    .film-strip-track:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes filmScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(calc(-50% - 12px)); }
+    }
+
+    .film-strip img {
+      height: clamp(200px, 35vw, 380px);
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.5);
+      flex-shrink: 0;
+      border: 4px solid #0f0f0f;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .film-strip img:hover {
+      transform: scale(1.03);
+      filter: brightness(1.1);
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .visual img {
         animation: none;
@@ -1035,7 +1134,8 @@
     @media (max-width: 920px) {
       .hero-grid,
       .issue-body,
-      .manifesto {
+      .manifesto,
+      .infographics-grid {
         grid-template-columns: 1fr;
       }
 
@@ -1286,6 +1386,16 @@
           </div>
         </div>
       </div>
+      <div class="infographics-grid">
+        <a href="https://rip-campionescript-lol.github.io/Fotos/1092c1fe-c870-40cd-818b-02c01f127a54.png" target="_blank" class="infographic-card">
+          <img src="https://rip-campionescript-lol.github.io/Fotos/1092c1fe-c870-40cd-818b-02c01f127a54.png" alt="Infografía 1" loading="lazy" decoding="async">
+          <span class="card-hint">hazme click para ver la imagen en pantalla completa y con mayor calidad</span>
+        </a>
+        <a href="https://rip-campionescript-lol.github.io/Fotos/22f746bc-1459-4d38-a0af-1e16735b1e4c.png" target="_blank" class="infographic-card">
+          <img src="https://rip-campionescript-lol.github.io/Fotos/22f746bc-1459-4d38-a0af-1e16735b1e4c.png" alt="Infografía 2" loading="lazy" decoding="async">
+          <span class="card-hint">hazme click para ver la imagen en pantalla completa y con mayor calidad</span>
+        </a>
+      </div>
     </section>
 
     <section id="meme" class="meme-section shell">
@@ -1306,12 +1416,29 @@
         <div class="meme-bottom">No seas como Campione.</div>
       </div>
     </section>
+
+    <div class="film-strip">
+      <div class="film-strip-track">
+        <img src="https://i.postimg.cc/nLLyPXQr/Campione-5.png" alt="Slide 1" loading="lazy">
+        <img src="https://i.postimg.cc/B6jGXjqV/Campione-4.png" alt="Slide 2" loading="lazy">
+        <img src="https://i.postimg.cc/02DPYK77/Campione3.png" alt="Slide 3" loading="lazy">
+        <img src="https://i.postimg.cc/hPTcLQV9/Campione2.png" alt="Slide 4" loading="lazy">
+        <img src="https://i.postimg.cc/15wsGVDG/Campione1.png" alt="Slide 5" loading="lazy">
+        <img src="https://i.postimg.cc/nLLyPXQr/Campione-5.png" alt="Slide 1" loading="lazy">
+        <img src="https://i.postimg.cc/B6jGXjqV/Campione-4.png" alt="Slide 2" loading="lazy">
+        <img src="https://i.postimg.cc/02DPYK77/Campione3.png" alt="Slide 3" loading="lazy">
+        <img src="https://i.postimg.cc/hPTcLQV9/Campione2.png" alt="Slide 4" loading="lazy">
+        <img src="https://i.postimg.cc/15wsGVDG/Campione1.png" alt="Slide 5" loading="lazy">
+      </div>
+    </div>
   </main>
 
   <footer class="shell footer">
     <span>Rip.CampioneScript.Lol</span>
     <span>Equipo Anti Hambreado Script</span>
   </footer>
+
+
 
   <script>
     const neonTitle = document.querySelector(".title-neon");
@@ -1654,6 +1781,10 @@
     });
 
     renderIssues();
+
+
+
+
   </script>
 </body>
 </html>
