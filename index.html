@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rip Campione Script</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090507;
+      --paper: #fff7ef;
+      --ink: #fff9f3;
+      --muted: #bfa9a9;
+      --red: #ff243d;
+      --red-2: #b6001b;
+      --red-3: #ff6b78;
+      --wine: #260008;
+      --line: rgba(255, 255, 255, .15);
+      --glass: rgba(255, 255, 255, .075);
+      --shadow: 0 26px 90px rgba(0, 0, 0, .48);
+      --radius: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: auto;
+      height: auto;
+      min-height: 100%;
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+
+    body {
+      margin: 0;
+      height: auto;
+      min-height: 100vh;
+      width: 100%;
+      overflow-y: visible;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 15% 0%, rgba(255, 36, 61, .34), transparent 34rem),
+        radial-gradient(circle at 85% 12%, rgba(255, 107, 120, .18), transparent 32rem),
+        linear-gradient(180deg, #130005 0%, var(--bg) 34%, #0c0708 100%);
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 28px));
+      margin: 0 auto;
+    }
+
+    section[id] {
+      scroll-margin-top: 110px;
+    }
+
+    .nav {
+      position: sticky;
+      top: 12px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 12px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(15, 3, 6, .72);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, .22);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .brand img {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,.24);
+      box-shadow: 0 0 0 5px rgba(255,36,61,.12);
+    }
+
+    .brand span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .navlinks {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.07);
+      color: rgba(255,255,255,.86);
+      font-weight: 800;
+      font-size: 13px;
+      transition: transform .25s ease, background .25s ease, border-color .25s ease;
+    }
+
+    .pill:hover {
+      transform: translateY(-2px);
+      background: rgba(255,36,61,.2);
+      border-color: rgba(255,107,120,.45);
+    }
+
+    .hero {
+      min-height: 94svh;
+      display: grid;
+      align-items: center;
+      padding: 58px 0 42px;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 999px;
+      color: #ffd8dc;
+      background: rgba(255,255,255,.07);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Anton, Impact, sans-serif;
+      font-size: clamp(48px, 9.5vw, 118px);
+      line-height: .88;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      text-wrap: balance;
+      max-width: 100%;
+      overflow-wrap: break-word;
+    }
+
+    h1 span {
+      display: block;
+      color: var(--red);
+      text-shadow: 0 0 34px rgba(255, 36, 61, .45);
+    }
+
+    .hero-copy {
+      margin: 26px 0 0;
+      max-width: 720px;
+      color: #ead4d4;
+      font-size: clamp(18px, 2.1vw, 25px);
+      line-height: 1.35;
+      font-weight: 650;
+    }
+
+    .hero-copy strong {
+      color: #fff;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 54px;
+      padding: 0 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      color: white;
+      font: 900 14px/1.1 Inter, sans-serif;
+      text-align: center;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--red), var(--red-2));
+      box-shadow: 0 14px 34px rgba(255, 36, 61, .24);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255,255,255,.34);
+      box-shadow: 0 12px 32px rgba(0,0,0,.24);
+    }
+
+    .device {
+      min-height: 660px;
+      border-radius: 42px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,.22);
+      background: linear-gradient(145deg, rgba(255,255,255,.18), rgba(255,255,255,.04));
+      box-shadow: 0 22px 58px rgba(0, 0, 0, .38);
+      transform-style: preserve-3d;
+      animation: floatPhone 7s ease-in-out infinite;
+    }
+
+    .screen {
+      height: 100%;
+      min-height: 632px;
+      border-radius: 32px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 30% 8%, rgba(255,255,255,.18), transparent 14rem),
+        linear-gradient(180deg, #2a0009, #0a0305);
+      border: 1px solid rgba(255,255,255,.18);
+      position: relative;
+      padding: 24px;
+    }
+
+    .screen-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .screen-logo {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-weight: 900;
+    }
+
+    .screen-logo img {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 10px 24px rgba(0,0,0,.28);
+    }
+
+    .live-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.1);
+      color: #ffd7dc;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .live-dot::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 0 0 rgba(255, 36, 61, .7);
+      animation: pulse 1.7s infinite;
+    }
+
+    .meter {
+      display: grid;
+      gap: 14px;
+    }
+
+    .meter-card {
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 22px;
+      background: rgba(255,255,255,.08);
+      transform: translateZ(30px);
+    }
+
+    .meter-card small {
+      display: flex;
+      justify-content: space-between;
+      color: #f4cbd0;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .bar {
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.1);
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      width: var(--w);
+      border-radius: inherit;
+      background: linear-gradient(90deg, #fff, var(--red-3), var(--red));
+      animation: fillIn 1.4s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    .receipt-stack {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 24px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .receipt {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.09);
+      border: 1px solid rgba(255,255,255,.14);
+      color: #ffe8eb;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .section {
+      padding: 60px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 22px;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-family: Space Grotesk, Inter, sans-serif;
+      font-size: clamp(34px, 5vw, 78px);
+      line-height: .94;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .section-note {
+      max-width: 440px;
+      color: var(--muted);
+      font-weight: 650;
+      line-height: 1.5;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .stat {
+      min-height: 140px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 24px;
+      padding: 18px;
+      background: rgba(255,255,255,.07);
+    }
+
+    .stat b {
+      display: block;
+      font-family: Anton, Impact, sans-serif;
+      font-size: clamp(44px, 6vw, 74px);
+      line-height: .9;
+      color: var(--red-3);
+      font-weight: 400;
+    }
+
+    .stat span {
+      color: #ead4d4;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .timeline-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .segmented {
+      display: inline-grid;
+      grid-auto-flow: column;
+      gap: 6px;
+      padding: 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.13);
+    }
+
+    .segmented button {
+      min-height: 36px;
+      border: 0;
+      border-radius: 999px;
+      padding: 0 12px;
+      background: transparent;
+      color: #f0d6d9;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .segmented button.active {
+      background: #fff;
+      color: #210006;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 16px;
+      counter-reset: issue;
+    }
+
+    .issue {
+      counter-increment: issue;
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 16px;
+      min-height: 250px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.045));
+      box-shadow: 0 14px 42px rgba(0,0,0,.2);
+      overflow: hidden;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      transition: opacity .7s ease, transform .7s ease, border-color .3s ease, background .3s ease;
+    }
+
+    .issue.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .issue:hover {
+      border-color: rgba(255,107,120,.48);
+      background: linear-gradient(135deg, rgba(255,36,61,.14), rgba(255,255,255,.055));
+    }
+
+    .number {
+      position: relative;
+      display: grid;
+      place-items: start center;
+      padding-top: 24px;
+      color: rgba(255,255,255,.36);
+      font-family: Anton, Impact, sans-serif;
+      font-size: 58px;
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+    }
+
+    .number::before {
+      content: counter(issue, decimal-leading-zero);
+    }
+
+    .issue-body {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(240px, .55fr);
+      gap: 22px;
+      padding: 22px 22px 22px 0;
+      align-items: stretch;
+    }
+
+    .issue h3 {
+      margin: 0;
+      font-family: Space Grotesk, Inter, sans-serif;
+      font-size: clamp(25px, 3.6vw, 48px);
+      line-height: 1;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .issue p {
+      margin: 16px 0 0;
+      color: #dec7c8;
+      font-size: 16px;
+      line-height: 1.58;
+      font-weight: 600;
+    }
+
+    .visual {
+      min-height: 205px;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,.14);
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,.2), transparent 9rem),
+        linear-gradient(135deg, rgba(255,36,61,.32), rgba(255,255,255,.06));
+      position: relative;
+      overflow: hidden;
+      padding: 18px;
+      display: grid;
+      align-content: space-between;
+    }
+
+    .visual img {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      width: 86px;
+      height: 86px;
+      border-radius: 24px;
+      object-fit: cover;
+      box-shadow: 0 18px 44px rgba(0,0,0,.3);
+      transform: rotate(5deg);
+    }
+
+    .visual .emoji {
+      font-size: 54px;
+    }
+
+    .visual b {
+      display: block;
+      max-width: 230px;
+      font-family: Anton, Impact, sans-serif;
+      font-size: 38px;
+      line-height: .92;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .visual small {
+      color: #ffe1e5;
+      font-weight: 850;
+    }
+
+    .manifesto {
+      display: grid;
+      grid-template-columns: .82fr 1.18fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .manifesto-panel {
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.075);
+      padding: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .manifesto-panel h2 {
+      margin: 0 0 14px;
+      font-family: Space Grotesk, Inter, sans-serif;
+      font-size: clamp(28px, 4.5vw, 64px);
+      line-height: .96;
+    }
+
+    .manifesto-panel p {
+      color: #dfc9cb;
+      line-height: 1.62;
+      font-weight: 650;
+    }
+
+    .red-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .red-list div {
+      display: flex;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.075);
+      border: 1px solid rgba(255,255,255,.11);
+      font-weight: 800;
+      color: #ffe3e6;
+    }
+
+    .red-list span {
+      color: var(--red-3);
+    }
+
+    .meme-section {
+      padding: 70px 0 90px;
+    }
+
+    .meme {
+      position: relative;
+      min-height: 620px;
+      border-radius: 34px;
+      background: #f2f0e8;
+      color: #161616;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,.22);
+      display: grid;
+      place-items: center;
+      padding: 38px 22px;
+    }
+
+    .meme-title,
+    .meme-bottom {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      text-align: center;
+      font-family: "Comic Sans MS", "Comic Sans", cursive;
+      letter-spacing: 0;
+      color: #0c0e12;
+      transform: rotate(-3deg);
+      z-index: 5;
+    }
+
+    .meme-title {
+      top: 26px;
+      font-size: clamp(28px, 4vw, 52px);
+    }
+
+    .meme-bottom {
+      bottom: 30px;
+      font-size: clamp(34px, 5vw, 72px);
+      font-weight: 900;
+      transform: rotate(4deg);
+    }
+
+    .people {
+      width: min(980px, 100%);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+      align-items: end;
+      margin-top: 16px;
+    }
+
+    .person {
+      height: 390px;
+      position: relative;
+      display: grid;
+      justify-items: center;
+      align-content: end;
+    }
+
+    .person .head {
+      width: 74px;
+      height: 88px;
+      border: 5px solid #313131;
+      border-radius: 46% 46% 42% 42%;
+      position: relative;
+      background: #f2f0e8;
+      z-index: 2;
+    }
+
+    .person .head::before,
+    .person .head::after {
+      content: "";
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #313131;
+      top: 32px;
+    }
+
+    .person .head::before {
+      left: 20px;
+    }
+
+    .person .head::after {
+      right: 20px;
+    }
+
+    .person .mouth {
+      position: absolute;
+      width: 24px;
+      height: 4px;
+      background: #313131;
+      left: 24px;
+      top: 56px;
+      border-radius: 999px;
+    }
+
+    .person .body {
+      width: 5px;
+      height: 110px;
+      background: #313131;
+      position: relative;
+    }
+
+    .person .body::before {
+      content: "";
+      position: absolute;
+      width: 76px;
+      height: 5px;
+      background: #313131;
+      left: -36px;
+      top: 34px;
+      border-radius: 999px;
+    }
+
+    .person .legs {
+      position: relative;
+      width: 92px;
+      height: 105px;
+    }
+
+    .person .legs::before,
+    .person .legs::after {
+      content: "";
+      position: absolute;
+      width: 5px;
+      height: 110px;
+      background: #313131;
+      top: -4px;
+      border-radius: 999px;
+      transform-origin: top;
+    }
+
+    .person .legs::before {
+      left: 42px;
+      transform: rotate(28deg);
+    }
+
+    .person .legs::after {
+      right: 42px;
+      transform: rotate(-28deg);
+    }
+
+    .person .logo {
+      position: absolute;
+      top: 8px;
+      font-size: 58px;
+      z-index: 3;
+    }
+
+    .person.center {
+      height: 455px;
+      transform: rotate(8deg);
+      align-content: end;
+    }
+
+    .person.center .head {
+      width: 122px;
+      height: 86px;
+      border-radius: 54% 46% 48% 52%;
+      transform: translate(18px, 20px) rotate(-8deg);
+      z-index: 7;
+    }
+
+    .person.center .head::before {
+      left: 30px;
+      top: 34px;
+    }
+
+    .person.center .head::after {
+      right: 24px;
+      top: 42px;
+    }
+
+    .person.center .mouth {
+      left: 28px;
+      top: 58px;
+      transform: rotate(8deg);
+    }
+
+    .person.center .logo {
+      width: 126px;
+      height: 126px;
+      border-radius: 50%;
+      object-fit: cover;
+      top: -6px;
+      animation: dizzy 2.4s linear infinite;
+      box-shadow: 0 0 0 8px rgba(255,36,61,.18);
+      z-index: 10;
+    }
+
+    .person.center .body {
+      height: 132px;
+      transform: translateX(-2px) rotate(9deg);
+      z-index: 5;
+    }
+
+    .person.center .body::before {
+      width: 104px;
+      left: -50px;
+      top: 35px;
+      transform: rotate(8deg);
+    }
+
+    .person.center .body::after {
+      content: "";
+      position: absolute;
+      width: 92px;
+      height: 5px;
+      left: -50px;
+      top: 86px;
+      border-radius: 999px;
+      background: #313131;
+      transform: rotate(-36deg);
+    }
+
+    .person.center .legs {
+      transform: translateX(-5px) rotate(4deg);
+    }
+
+    .person.center::before {
+      content: "";
+      position: absolute;
+      top: 56px;
+      width: 132px;
+      height: 132px;
+      border-radius: 50%;
+      border: 7px solid rgba(255,36,61,.86);
+      border-left-color: transparent;
+      border-bottom-color: transparent;
+      animation: spin 1.2s linear infinite;
+      z-index: 9;
+    }
+
+
+    .sword {
+      position: absolute;
+      width: 160px;
+      height: 5px;
+      left: 50%;
+      z-index: 12;
+      background: #111;
+      border-radius: 4px;
+    }
+
+    .sword.one {
+      top: 214px;
+      transform: translateX(-50%) rotate(-38deg);
+    }
+
+    .sword.two {
+      top: 285px;
+      transform: translateX(-50%) rotate(18deg);
+    }
+
+    .blood {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--red);
+      left: var(--x);
+      top: var(--y);
+      animation: drip 2.7s ease-in-out infinite;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding: 28px 0 42px;
+      color: #c9b0b2;
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    @keyframes floatPhone {
+      0%, 100% { transform: perspective(900px) rotateX(4deg) rotateY(-7deg) translateY(0); }
+      50% { transform: perspective(900px) rotateX(2deg) rotateY(8deg) translateY(-16px); }
+    }
+
+    @keyframes pulse {
+      70% { box-shadow: 0 0 0 14px rgba(255, 36, 61, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 36, 61, 0); }
+    }
+
+    @keyframes fillIn {
+      from { width: 0; }
+      to { width: var(--w); }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes dizzy {
+      0%, 100% { transform: rotate(-7deg) scale(1); }
+      50% { transform: rotate(7deg) scale(1.04); }
+    }
+
+    @keyframes impactPulse {
+      0%, 100% { transform: scale(.96) rotate(0deg); opacity: .82; }
+      50% { transform: scale(1.05) rotate(8deg); opacity: 1; }
+    }
+
+    @keyframes drip {
+      0%, 100% { transform: translateY(0); opacity: .95; }
+      50% { transform: translateY(26px); opacity: .45; }
+    }
+
+    @media (max-width: 920px) {
+      .hero-grid,
+      .issue-body,
+      .manifesto {
+        grid-template-columns: 1fr;
+      }
+
+      .device {
+        min-height: 560px;
+      }
+
+      .screen {
+        min-height: 532px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .issue {
+        grid-template-columns: 1fr;
+      }
+
+      .number {
+        min-height: 74px;
+        place-items: center start;
+        padding: 0 20px;
+      }
+
+      .issue-body {
+        padding: 0 18px 18px;
+      }
+
+      .people {
+        gap: 2px;
+      }
+
+      .person {
+        transform: scale(.8);
+      }
+
+      .person.center {
+        transform: rotate(8deg) scale(.82);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav {
+        border-radius: 24px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+
+      .navlinks {
+        display: flex;
+        width: 100%;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding: 2px 0 4px;
+        scrollbar-width: none;
+      }
+
+      .navlinks::-webkit-scrollbar {
+        display: none;
+      }
+
+      .navlinks .pill {
+        flex: 0 0 auto;
+      }
+
+      .hero {
+        padding-top: 38px;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .visual {
+        min-height: 180px;
+      }
+
+      .meme {
+        min-height: 560px;
+      }
+
+      .people {
+        width: 720px;
+        transform: scale(.58);
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="shell nav">
+    <a class="brand" href="#top" aria-label="Inicio">
+      <img src="https://i.postimg.cc/wTpYKGqV/Anti-Hambreado.jpg" alt="Anti Hambreado" decoding="async">
+      <span>Rip Campione Script</span>
+    </a>
+    <div class="navlinks">
+      <a class="pill" href="#lista">La lista</a>
+      <a class="pill" href="#manifiesto">Manifiesto</a>
+      <a class="pill" href="#meme">Meme final</a>
+      <a class="pill" href="https://www.youtube.com/@CAMPIONESCRIPT" target="_blank" rel="noreferrer">Canal</a>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero shell">
+      <div class="hero-grid">
+        <div>
+          <div class="kicker">No afiliado con Campione Script · sátira crítica</div>
+          <h1>Todo lo que <span>salió mal</span> con Campione Script.</h1>
+          <p class="hero-copy">Una página anti-hambreado sobre la experiencia que muchos usuarios sienten cuando una comunidad de scripts se convierte en <strong>pasillos de anuncios, esperas, enlaces recortados y monetización antes que utilidad</strong>.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#lista">Ver el expediente</a>
+            <a class="btn" href="#manifiesto">Leer postura</a>
+          </div>
+        </div>
+        <div class="device" aria-label="Panel visual">
+          <div class="screen">
+            <div class="screen-top">
+              <div class="screen-logo">
+                <img src="https://i.postimg.cc/bwb3p4GQ/channels4-profile.jpg" alt="Campione Script" loading="lazy" decoding="async">
+                <span>Radar Campione</span>
+              </div>
+              <span class="live-dot">alerta</span>
+            </div>
+            <div class="meter">
+              <div class="meter-card" style="--w: 94%">
+                <small><span>Enlace con vueltas</span><span>94%</span></small>
+                <div class="bar"><div class="fill"></div></div>
+              </div>
+              <div class="meter-card" style="--w: 12%">
+                <small><span>Paciencia del usuario</span><span>12%</span></small>
+                <div class="bar"><div class="fill"></div></div>
+              </div>
+              <div class="meter-card" style="--w: 97%">
+                <small><span>Hambre percibida</span><span>97%</span></small>
+                <div class="bar"><div class="fill"></div></div>
+              </div>
+            </div>
+            <div class="receipt-stack">
+              <div class="receipt"><span>Click 1</span><span>anuncio</span></div>
+              <div class="receipt"><span>Click 2</span><span>espera</span></div>
+              <div class="receipt"><span>Click 3</span><span>otro redirect</span></div>
+              <div class="receipt"><span>Usuario</span><span>ya se fue</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell">
+      <div class="section-head">
+        <h2 class="section-title">El resumen en números.</h2>
+        <p class="section-note">Esta página es crítica editorial y humorística. No afirma delitos ni hechos privados: se centra en patrones de experiencia de usuario, monetización agresiva y la frustración de usuarios ante rutas llenas de fricción.</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><b data-count="37">0</b><span>puntos de crítica</span></div>
+        <div class="stat"><b data-count="4">0</b><span>temas repetidos: anuncios, esperas, fricción, confianza</span></div>
+        <div class="stat"><b data-count="100">0</b><span>por ciento opinión/sátira</span></div>
+        <div class="stat"><b data-count="1">0</b><span>mensaje: no seas hambreado</span></div>
+      </div>
+    </section>
+
+    <section id="lista" class="section shell">
+      <div class="section-head">
+        <h2 class="section-title">El expediente anti-hambreado.</h2>
+        <p class="section-note">Un recorrido largo, estilo archivo, de todo lo que puede salir mal cuando el valor real queda enterrado debajo de monetización forzada.</p>
+      </div>
+      <div class="timeline-controls">
+        <div class="segmented" aria-label="Filtros">
+          <button class="active" data-filter="all">Todo</button>
+          <button data-filter="monetizacion">Monetización</button>
+          <button data-filter="ux">Experiencia</button>
+          <button data-filter="confianza">Confianza</button>
+        </div>
+      </div>
+      <div class="timeline" id="issues"></div>
+    </section>
+
+    <section id="manifiesto" class="section shell">
+      <div class="manifesto">
+        <div class="manifesto-panel">
+          <h2>No es odio. Es cansancio.</h2>
+          <p>El problema no es que un creador gane dinero. El problema empieza cuando el usuario siente que el contenido gratuito se usa como anzuelo para exprimir clics, esperas y redirecciones, y la ayuda queda atrás.</p>
+          <p>La crítica aquí es directa: si ya hay ingresos por YouTube, comunidad y atención, entonces pedir todavía más paciencia por cada archivo se siente como una decisión de producto contra la audiencia.</p>
+        </div>
+        <div class="manifesto-panel">
+          <div class="red-list">
+            <div><span>01</span> Menos vueltas para descargar, más respeto por el tiempo.</div>
+            <div><span>02</span> Enlaces claros, sin laberintos que parecen diseñados para cansar.</div>
+            <div><span>03</span> Monetización visible y honesta, no escondida en cada paso.</div>
+            <div><span>04</span> Comunidad primero, ingreso después.</div>
+            <div><span>05</span> Si un script es bueno, no necesita una carrera de obstáculos.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="meme" class="meme-section shell">
+      <div class="meme" aria-label="Meme No seas como Campione" style="padding: 100px 22px; min-height: auto;">
+        <div class="meme-title">Y recuerden...</div>
+        
+        <div class="meme-image-wrapper" style="position: relative; width: 100%; max-width: 980px; margin: 0 auto;">
+          <img src="https://clawd.rip/anthropicdead-light.png" alt="Meme original" style="width: 100%; display: block; border-radius: 12px; background-color: #f6f3eb;">
+          
+          <img class="logo" src="https://i.postimg.cc/bwb3p4GQ/channels4-profile.jpg" alt="Campione Script" style="position: absolute; top: 18%; left: 48.5%; transform: translate(-50%, -50%); width: 19%; border-radius: 50%; box-shadow: 0 0 0 4px rgba(255,36,61,.18);">
+          
+          <div style="position: absolute; top: 8%; left: 4.5%; width: 9%; height: 18%; background: #f6f3eb; border-radius: 6px; transform: translate(-50%, -50%);"></div>
+          <div style="position: absolute; top: 29%; left: 24%; width: 9%; height: 18%; background: #f6f3eb; border-radius: 6px; transform: translate(-50%, -50%);"></div>
+          <div style="position: absolute; top: 29%; left: 75%; width: 9%; height: 18%; background: #f6f3eb; border-radius: 6px; transform: translate(-50%, -50%);"></div>
+          <div style="position: absolute; top: 8%; left: 95.5%; width: 9%; height: 18%; background: #f6f3eb; border-radius: 6px; transform: translate(-50%, -50%);"></div>
+        </div>
+
+        <div class="meme-bottom">No seas como Campione.</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell footer">
+    <span>Rip.CampioneScript.Lol</span>
+    <span>Equipo Anti Hambreado Script</span>
+  </footer>
+
+  <script>
+    const logo = "https://i.postimg.cc/bwb3p4GQ/channels4-profile.jpg";
+    const anti = "https://i.postimg.cc/6QvQCQZP/Anti-Hambreado-Script-Team.png";
+    const canAnimateScroll = "IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (canAnimateScroll) document.documentElement.classList.add("motion-ready");
+    const issues = [
+      ["monetizacion", "Era del enlace con peaje", "Cuando el usuario solo quiere llegar al script y termina atravesando anuncios, temporizadores y pestañas extra, la descarga deja de sentirse gratis y empieza a sentirse cobrada con tiempo.", "Monetización", "Peaje de enlace", "🧾"],
+      ["ux", "El botón que nunca llega directo", "La primera fricción no es técnica: es emocional. Cada paso innecesario manda el mensaje de que el clic del usuario vale más que su comodidad.", "Experiencia", "Redirecciones", "🧭"],
+      ["monetizacion", "YouTube paga, pero el enlace también", "La crítica central es simple: si el canal ya monetiza vistas, meter más rutas publicitarias en cada recurso se percibe como doble cobro de atención.", "Monetización", "Doble ingreso", "💸"],
+      ["confianza", "El usuario aprende a desconfiar", "Cuando una descarga viene envuelta en anuncios agresivos, la gente empieza a preguntarse si el archivo es el producto o si el producto es el usuario.", "Confianza", "Duda", "🕵️"],
+      ["ux", "La paciencia convertida en captcha social", "Esperar, cerrar ventanas, esquivar botones falsos y volver a intentar no mejora el script. Solo convierte una comunidad en trámite.", "Experiencia", "Esperas", "⏳"],
+      ["monetizacion", "Hambre de clics antes que soporte", "Si el soporte, la claridad y las instrucciones quedan detrás de la monetización, el creador puede ganar clics pero pierde autoridad.", "Monetización", "Prioridades", "🍽️"],
+      ["confianza", "La promesa gratuita se vuelve letra pequeña", "Gratis no se siente gratis cuando el camino está lleno de anuncios, riesgos visuales y pasos que parecen diseñados para inflar métricas.", "Confianza", "Promesa rota", "📜"],
+      ["ux", "Demasiadas pestañas para una sola descarga", "Una pestaña para el video, otra para el acortador, otra para publicidad y otra para el archivo. El usuario llegó por un script, no por una carrera de obstáculos.", "Experiencia", "Pestañas", "🪟"],
+      ["monetizacion", "La economía del cansancio", "Hay monetización legítima y hay monetización por desgaste. La segunda vive de que el usuario se rinda menos rápido que el sistema.", "Monetización", "Desgaste", "🔋"],
+      ["confianza", "La reputación también necesita pausa", "Cada enlace molesto se acumula. Aunque el script funcione, la marca queda asociada a fricción, anuncios y ganas de exprimir.", "Confianza", "Reputación", "📉"],
+      ["ux", "Tutorial largo, descarga escondida", "Cuando el contenido útil queda sepultado entre llamadas a suscribirse, esperar y pasar enlaces, el tutorial se siente como embudo, no ayuda.", "Experiencia", "Embudo", "🎬"],
+      ["monetizacion", "El usuario como moneda", "La audiencia no solo paga con dinero. También paga con atención, datos de navegación, tiempo y paciencia. Pedir todo a la vez es hambreado.", "Monetización", "Atención", "🪙"],
+      ["confianza", "Anuncios que ensucian el archivo", "Aunque el archivo final sea legítimo, rodearlo de páginas dudosas hace que todo parezca menos seguro. La presentación importa.", "Confianza", "Seguridad percibida", "🧨"],
+      ["ux", "El diseño anti-usuario", "Un buen flujo reduce pasos. Un flujo hambreado los multiplica. La diferencia se siente en los primeros veinte segundos.", "Experiencia", "Fricción", "🧱"],
+      ["monetizacion", "Más ingreso, menos empatía", "El problema no es monetizar. Es monetizar como si cada visita fuera una mina y no una persona tratando de resolver algo.", "Monetización", "Empatía", "🧊"],
+      ["confianza", "La comunidad detecta el patrón", "Cuando muchos usuarios terminan describiendo la experiencia con las mismas palabras, ya no es un caso aislado: es una percepción de marca.", "Confianza", "Percepción", "👥"],
+      ["ux", "Clic aquí, no allí", "Los entornos cargados de anuncios confunden con botones falsos, descargas duplicadas y llamadas engañosas. Eso daña la experiencia incluso antes del archivo.", "Experiencia", "Botones falsos", "🎯"],
+      ["monetizacion", "El script como anzuelo", "Si el recurso sirve principalmente para empujar tráfico por rutas pagadas, el contenido deja de sentirse como regalo y se siente como carnada.", "Monetización", "Anzuelo", "🪝"],
+      ["confianza", "Transparencia a medias", "La gente tolera anuncios si sabe qué espera. Lo que molesta es no saber cuántos pasos quedan ni qué página será la siguiente.", "Confianza", "Claridad", "🔎"],
+      ["ux", "El móvil lo sufre más", "En teléfono, cerrar ventanas emergentes y volver al botón correcto es peor. Una mala ruta de descarga en móvil se convierte en castigo.", "Experiencia", "Móvil", "📱"],
+      ["monetizacion", "El premium invisible", "Cuando saltarse anuncios se vuelve el verdadero valor, la página está vendiendo comodidad aunque no lo diga.", "Monetización", "Comodidad", "💳"],
+      ["confianza", "El nombre queda pegado a los anuncios", "El usuario no separa el acortador del creador. Si el camino se siente sucio, el recuerdo se pega al canal.", "Confianza", "Marca", "🏷️"],
+      ["ux", "Falta de ruta limpia", "Un espejo directo, una alternativa clara o un aviso honesto bajaría la tensión. La ausencia de salida limpia es parte del enojo.", "Experiencia", "Alternativa", "🛣️"],
+      ["monetizacion", "Todo apunta a exprimir más", "Cuando cada parte del recorrido parece optimizada para retener y monetizar, la intención percibida cambia: de compartir a extraer.", "Monetización", "Extracción", "🧲"],
+      ["confianza", "La audiencia no olvida", "Un buen script puede ganar una visita. Una experiencia abusiva puede perder diez futuras.", "Confianza", "Memoria", "🧠"],
+      ["ux", "La descarga como laberinto", "El usuario no debería necesitar intuición de detective para ubicar el archivo real. Si hay que adivinar, el flujo falló.", "Experiencia", "Laberinto", "🌀"],
+      ["monetizacion", "Hambreado mode activado", "La vibra de hambreado aparece cuando el dinero deja de ser consecuencia del valor y empieza a mandar sobre el valor.", "Monetización", "Hambre", "🚨"],
+      ["confianza", "El exceso de anuncios parece desesperación", "Aunque sea estrategia, la sobrecarga publicitaria comunica necesidad, avaricia o falta de control. Ninguna de las tres ayuda.", "Confianza", "Óptica", "📡"],
+      ["ux", "El usuario no vino a pelear con la web", "Llegó a copiar, instalar o probar algo. Cada obstáculo que no aporta a eso es deuda de experiencia.", "Experiencia", "Deuda", "🧹"],
+      ["monetizacion", "El costo escondido", "No hay precio visible, pero sí costo: tiempo, clics, ventanas, riesgo y frustración. Eso también cuenta.", "Monetización", "Costo", "🧮"],
+      ["confianza", "La crítica nace de la expectativa", "La gente critica más cuando esperaba algo mejor. Si el canal tiene alcance, también tiene más responsabilidad con su flujo.", "Confianza", "Responsabilidad", "⚖️"],
+      ["ux", "Demasiado ruido visual", "Anuncios, capas emergentes y botones competidores hacen que el usuario pierda foco. Una buena página protege el objetivo principal.", "Experiencia", "Ruido", "📣"],
+      ["monetizacion", "La atención no es infinita", "Cada segundo invertido en una ruta forzada es atención que no vuelve. Ganar un anuncio y perder lealtad es mal negocio.", "Monetización", "Lealtad", "⌛"],
+      ["confianza", "La comunidad merece trato directo", "Si la audiencia sostiene el canal, merece enlaces entendibles, instrucciones claras y menos fricción artificial.", "Confianza", "Respeto", "🤝"],
+      ["ux", "La experiencia pesa más que el archivo", "Un script bueno puede quedar arruinado por una mala entrega. La experiencia de usuario también es parte del producto.", "Experiencia", "Producto", "🧰"],
+      ["monetizacion", "Avaricia percibida", "Cuando el canal ya gana visibilidad y aun así cada descarga parece maximizar anuncios, la palabra que sale sola es avaricia.", "Monetización", "Percepción", "🔥"],
+      ["confianza", "No seas como Campione", "La moraleja es sencilla: monetiza, sí, pero no conviertas a tu propia comunidad en una fila de clics obligatorios.", "Confianza", "Moraleja", "🪦"]
+    ];
+
+    const issueRoot = document.querySelector("#issues");
+    function renderIssues(filter = "all") {
+      issueRoot.innerHTML = "";
+      const filteredIssues = issues.filter(item => filter === "all" || item[0] === filter);
+      filteredIssues.forEach((item, index) => {
+        const card = document.createElement("article");
+        const media = index % 4 === 0 ? `<img src="${index % 8 === 0 ? logo : anti}" alt="" loading="lazy" decoding="async">` : "";
+        card.className = "issue";
+        card.dataset.kind = item[0];
+        card.innerHTML = `
+          <div class="number"></div>
+          <div class="issue-body">
+            <div>
+              <h3>${item[1]}</h3>
+              <p>${item[2]}</p>
+            </div>
+            <div class="visual">
+              <span class="emoji">${item[5]}</span>
+              <div>
+                <b>${item[3]}</b>
+                <small>Equipo Anti Hambreado Script</small>
+              </div>
+              ${media}
+            </div>
+          </div>
+        `;
+        issueRoot.appendChild(card);
+      });
+      observeIssues();
+    }
+
+    function observeIssues() {
+      if (!canAnimateScroll) {
+        document.querySelectorAll(".issue").forEach(card => card.classList.add("visible"));
+        return;
+      }
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: .12 });
+      document.querySelectorAll(".issue").forEach(card => observer.observe(card));
+    }
+
+    document.querySelectorAll("[data-filter]").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll("[data-filter]").forEach(item => item.classList.remove("active"));
+        button.classList.add("active");
+        renderIssues(button.dataset.filter);
+      });
+    });
+
+    const counters = document.querySelectorAll("[data-count]");
+    const counterObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = Number(el.dataset.count);
+        el.textContent = target;
+        counterObserver.unobserve(el);
+      });
+    }, { threshold: .6 });
+
+    counters.forEach(counter => counterObserver.observe(counter));
+
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener("click", event => {
+        const id = link.getAttribute("href");
+        const target = id && id.length > 1 ? document.querySelector(id) : null;
+        if (!target) return;
+        event.preventDefault();
+        const top = target.getBoundingClientRect().top + window.pageYOffset - 92;
+        window.scrollTo({ top, behavior: "auto" });
+      });
+    });
+
+    renderIssues();
+  </script>
+</body>
+</html>
