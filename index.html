@@ -391,10 +391,13 @@
 
     .fill {
       height: 100%;
-      width: var(--w);
+      width: 0;
       border-radius: inherit;
       background: linear-gradient(90deg, #fff, var(--red-3), var(--red));
-      animation: fillIn 1.4s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    .meter-card.meter-visible .fill {
+      animation: fillIn 3s cubic-bezier(.22,1,.36,1) both;
     }
 
     .receipt-stack {
@@ -705,11 +708,11 @@
       position: relative;
       min-height: 620px;
       border-radius: 34px;
-      background: #f2f0e8;
+      background: transparent;
       color: #161616;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(255,255,255,.22);
+      overflow: visible;
+      box-shadow: none;
+      border: 0;
       display: grid;
       place-items: center;
       padding: 38px 22px;
@@ -1146,6 +1149,58 @@
       filter: blur(0) saturate(1);
     }
 
+    .platform-proof {
+      display: grid;
+      gap: clamp(28px, 4vw, 44px);
+      margin-top: clamp(34px, 5vw, 62px);
+    }
+
+    .platform-card {
+      display: grid;
+      gap: 18px;
+      justify-items: center;
+      opacity: 0;
+      transform: translateY(34px) scale(.985);
+      filter: blur(10px) saturate(.9);
+      transition: opacity .85s cubic-bezier(.16, 1, .3, 1), transform .85s cubic-bezier(.16, 1, .3, 1), filter .85s ease;
+      will-change: transform, opacity, filter;
+    }
+
+    .platform-card.comment-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0) saturate(1);
+    }
+
+    .platform-card h3 {
+      margin: 0;
+      font-family: Anton, Impact, sans-serif;
+      font-size: clamp(34px, 5vw, 72px);
+      line-height: .95;
+      text-transform: uppercase;
+      text-align: center;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .platform-youtube {
+      color: var(--red);
+      text-shadow: 0 0 24px rgba(255, 36, 61, .28);
+    }
+
+    .platform-discord {
+      color: #9b6dff;
+      text-shadow: 0 0 24px rgba(155, 109, 255, .28);
+    }
+
+    .platform-card img {
+      width: min(100%, 900px);
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,.2);
+      background: rgba(255,255,255,.08);
+      box-shadow: 0 24px 54px rgba(0, 0, 0, .34);
+    }
+
     .film-strip {
       overflow: hidden;
       padding: 34px 0;
@@ -1199,6 +1254,12 @@
       }
 
       .comment-shot {
+        opacity: 1;
+        transform: none;
+        filter: none;
+      }
+
+      .platform-card {
         opacity: 1;
         transform: none;
         filter: none;
@@ -1433,7 +1494,7 @@
 
     <section id="lista" class="section shell">
       <div class="section-head">
-        <h2 class="section-title">El expediente anti-hambreado.</h2>
+        <h2 class="section-title">El expediente hambreado.</h2>
         <p class="section-note">Un recorrido largo, estilo archivo, de todo lo que puede salir mal cuando el valor real queda enterrado debajo de monetización forzada.</p>
       </div>
       <div class="timeline-controls">
@@ -1488,6 +1549,16 @@
             <img class="comment-shot" src="https://i.postimg.cc/WzFjfXtp/Comentario13.png" alt="Comentario de ex suscriptor 13" loading="lazy" decoding="async">
             <img class="comment-shot" src="https://i.postimg.cc/Gt8rSq9L/Comentario14.png" alt="Comentario de ex suscriptor 14" loading="lazy" decoding="async">
           </div>
+          <div class="platform-proof">
+            <div class="platform-card">
+              <h3>Y más de <span data-count="580">0</span> suscriptores en <span class="platform-youtube">Youtube</span></h3>
+              <img src="https://i.postimg.cc/L5wXx3g7/YoutubeCanal.png" alt="Canal de Youtube con más de 580 suscriptores" loading="lazy" decoding="async">
+            </div>
+            <div class="platform-card">
+              <h3>Y más de <span data-count="700">0</span> usuarios en <span class="platform-discord">Discord</span></h3>
+              <img src="https://i.postimg.cc/rs3mfNRH/DiscordMiembros.png" alt="Discord con más de 700 usuarios" loading="lazy" decoding="async">
+            </div>
+          </div>
         </div>
         <a href="https://rip-campionescript-lol.github.io/Fotos/22f746bc-1459-4d38-a0af-1e16735b1e4c.png" target="_blank" class="infographic-card">
           <span class="card-hint">hazme click para ver la imagen en pantalla completa y con mayor calidad</span>
@@ -1511,22 +1582,14 @@
       </div>
     </div>
 
-    <section id="meme" class="meme-section shell">
-      <div class="meme" aria-label="Meme No seas como Campione" style="padding: 100px 22px; min-height: auto;">
-        <div class="meme-title">Y recuerden...</div>
+    <section id="meme" class="meme-section">
+      <div class="meme" aria-label="Meme No seas como Campione" style="padding: 70px 0; min-height: auto;">
         
-        <div class="meme-image-wrapper" style="position: relative; width: 100%; max-width: 980px; margin: 0 auto;">
-          <img src="https://clawd.rip/anthropicdead-light.png" alt="Meme original" style="width: 100%; display: block; border-radius: 12px; background-color: #f6f3eb;">
+        <div class="meme-image-wrapper" style="position: relative; width: min(100vw - 18px, 1320px); max-width: 1320px; margin: 0 auto;">
+          <img src="https://i.postimg.cc/zBXG8GmN/ReflexiónMeme.png" alt="Meme Reflexión" style="width: 100%; display: block; border-radius: 12px;">
           
-          <img class="logo" src="https://i.postimg.cc/bwb3p4GQ/channels4-profile.jpg" alt="Campione Script" style="position: absolute; top: 18%; left: 48.5%; transform: translate(-50%, -50%); width: 19%; border-radius: 50%; box-shadow: 0 0 0 4px rgba(255,36,61,.18);">
-          
-          <div style="position: absolute; top: 8%; left: 4.5%; width: 9%; height: 18%; background: #f6f3eb; border-radius: 6px; transform: translate(-50%, -50%);"></div>
-          <div style="position: absolute; top: 29%; left: 24%; width: 9%; height: 18%; background: #f6f3eb; border-radius: 6px; transform: translate(-50%, -50%);"></div>
-          <div style="position: absolute; top: 29%; left: 75%; width: 9%; height: 18%; background: #f6f3eb; border-radius: 6px; transform: translate(-50%, -50%);"></div>
-          <div style="position: absolute; top: 8%; left: 95.5%; width: 9%; height: 18%; background: #f6f3eb; border-radius: 6px; transform: translate(-50%, -50%);"></div>
         </div>
 
-        <div class="meme-bottom">No seas como Campione.</div>
       </div>
     </section>
 
@@ -1837,17 +1900,45 @@
     window.addEventListener("resize", updateSvgReveal);
     setInterval(updateSvgReveal, 220);
 
-    const commentShots = document.querySelectorAll(".comment-shot");
-    if ("IntersectionObserver" in window) {
-      const commentObserver = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          entry.target.classList.toggle("comment-visible", entry.isIntersecting);
+    const commentShots = document.querySelectorAll(".comment-shot, .platform-card");
+    let commentRevealFrame = 0;
+    const updateCommentReveal = () => {
+      cancelAnimationFrame(commentRevealFrame);
+      commentRevealFrame = requestAnimationFrame(() => {
+        const vh = window.innerHeight;
+        commentShots.forEach(comment => {
+          const rect = comment.getBoundingClientRect();
+          const visible = comment.classList.contains("comment-visible");
+          const shouldShow = rect.top < vh * .82 && rect.bottom > vh * .08;
+          const shouldHide = rect.bottom < -80 || rect.top > vh + 80;
+          if (!visible && shouldShow) comment.classList.add("comment-visible");
+          if (visible && shouldHide) comment.classList.remove("comment-visible");
         });
-      }, { threshold: .28, rootMargin: "0px 0px -8% 0px" });
-      commentShots.forEach(comment => commentObserver.observe(comment));
-    } else {
-      commentShots.forEach(comment => comment.classList.add("comment-visible"));
-    }
+      });
+    };
+    window.addEventListener("scroll", updateCommentReveal, { passive: true });
+    window.addEventListener("resize", updateCommentReveal);
+    updateCommentReveal();
+
+    const meterCards = document.querySelectorAll(".meter-card");
+    let meterFrame = 0;
+    const updateMeterReveal = () => {
+      cancelAnimationFrame(meterFrame);
+      meterFrame = requestAnimationFrame(() => {
+        const vh = window.innerHeight;
+        meterCards.forEach(card => {
+          const rect = card.getBoundingClientRect();
+          const visible = card.classList.contains("meter-visible");
+          const shouldShow = rect.top < vh * .82 && rect.bottom > vh * .08;
+          const shouldHide = rect.bottom < -60 || rect.top > vh + 60;
+          if (!visible && shouldShow) card.classList.add("meter-visible");
+          if (visible && shouldHide) card.classList.remove("meter-visible");
+        });
+      });
+    };
+    window.addEventListener("scroll", updateMeterReveal, { passive: true });
+    window.addEventListener("resize", updateMeterReveal);
+    updateMeterReveal();
 
     document.querySelectorAll("[data-filter]").forEach(button => {
       button.addEventListener("click", () => {
@@ -1863,18 +1954,23 @@
     const easeOut = value => 1 - Math.pow(1 - value, 4);
     const counterObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
         const el = entry.target;
+        el.dataset.counterRun = String((Number(el.dataset.counterRun) || 0) + 1);
+        const run = el.dataset.counterRun;
+        if (!entry.isIntersecting) {
+          el.textContent = "0";
+          return;
+        }
         const target = Number(el.dataset.count);
-        const duration = 1200;
+        const duration = 2600;
         const start = performance.now();
         const tick = now => {
+          if (el.dataset.counterRun !== run) return;
           const progress = Math.min((now - start) / duration, 1);
           el.textContent = Math.round(target * easeOut(progress));
           if (progress < 1) requestAnimationFrame(tick);
         };
         requestAnimationFrame(tick);
-        counterObserver.unobserve(el);
       });
     }, { threshold: .6 });
 
