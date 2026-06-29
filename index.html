@@ -16,8 +16,7 @@
   <title>Rip.CampioneScript.Lol</title>
   <link rel="icon" href="https://i.postimg.cc/X7FJx7R0/Anti-Hambreado-Script-Team.jpg" type="image/jpeg">
   <style>
-    @import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap");
-  
+    @import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Inter:wght@300;400;600;850;900&family=Space+Grotesk:wght@400;700&display=swap");
 
     :root {
       color-scheme: dark;
@@ -29,6 +28,13 @@
       --red-2: #b6001b;
       --red-3: #ff6b78;
       --wine: #260008;
+      --purple: #8e2de2;
+      --magenta: #ff007f;
+      --amber: #ff9f43;
+      --red-glow: rgba(255, 36, 61, 0.4);
+      --purple-glow: rgba(142, 45, 226, 0.35);
+      --magenta-glow: rgba(255, 0, 127, 0.35);
+      --amber-glow: rgba(255, 159, 67, 0.35);
       --line: rgba(255, 255, 255, .15);
       --glass: rgba(255, 255, 255, .075);
       --shadow: 0 26px 90px rgba(0, 0, 0, .48);
@@ -45,7 +51,21 @@
       min-height: 100%;
       overflow-y: scroll;
       overflow-x: hidden;
-      background: #090507;
+      background: #050305;
+    }
+
+    #bg-canvas-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 15% 0%, rgba(255, 36, 61, .16), transparent 44rem),
+        radial-gradient(circle at 85% 12%, rgba(142, 45, 226, .12), transparent 38rem),
+        linear-gradient(180deg, #130005 0%, var(--bg) 34%, #0c0708 100%);
     }
 
     body {
@@ -56,10 +76,7 @@
       overflow-y: visible;
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--ink);
-      background:
-        radial-gradient(circle at 15% 0%, rgba(255, 36, 61, .34), transparent 34rem),
-        radial-gradient(circle at 85% 12%, rgba(255, 107, 120, .18), transparent 32rem),
-        linear-gradient(180deg, #130005 0%, var(--bg) 34%, #0c0708 100%);
+      background: transparent;
       overflow-x: hidden;
     }
 
@@ -94,8 +111,8 @@
       z-index: -1;
       pointer-events: none;
       background:
-        radial-gradient(circle at 18% 12%, rgba(255, 36, 61, .18), transparent 28rem),
-        linear-gradient(180deg, rgba(42, 0, 9, .94), rgba(20, 0, 5, .98) 55%, rgba(34, 2, 8, .9));
+        radial-gradient(circle at 18% 12%, rgba(142, 45, 226, .15), transparent 30rem),
+        linear-gradient(180deg, rgba(42, 0, 9, 0.78), rgba(20, 0, 5, 0.88) 55%, rgba(34, 2, 8, 0.82));
     }
 
     .nav {
@@ -159,13 +176,26 @@
       color: rgba(255,255,255,.86);
       font-weight: 800;
       font-size: 13px;
-      transition: transform .25s ease, background .25s ease, border-color .25s ease;
+      transition: transform .25s ease, background .25s ease, border-color .25s ease, box-shadow 0.25s ease;
     }
 
-    .pill:hover {
+    .navlinks a:nth-child(1):hover {
       transform: translateY(-2px);
-      background: rgba(255,36,61,.2);
-      border-color: rgba(255,107,120,.45);
+      background: rgba(255, 0, 127, 0.16);
+      border-color: var(--magenta);
+      box-shadow: 0 0 15px var(--magenta-glow);
+    }
+    .navlinks a:nth-child(2):hover {
+      transform: translateY(-2px);
+      background: rgba(142, 45, 226, 0.16);
+      border-color: var(--purple);
+      box-shadow: 0 0 15px var(--purple-glow);
+    }
+    .navlinks a:nth-child(3):hover {
+      transform: translateY(-2px);
+      background: rgba(255, 159, 67, 0.16);
+      border-color: var(--amber);
+      box-shadow: 0 0 15px var(--amber-glow);
     }
 
     .hero {
@@ -201,7 +231,7 @@
       margin: 0;
       font-family: Anton, Impact, sans-serif;
       font-size: clamp(54px, 7.4vw, 112px);
-      line-height: .88;
+      line-height: 0.96;
       letter-spacing: 0;
       text-transform: uppercase;
       text-wrap: balance;
@@ -289,14 +319,22 @@
     }
 
     .btn.primary {
-      background: linear-gradient(135deg, var(--red), var(--red-2));
-      box-shadow: 0 14px 34px rgba(255, 36, 61, .24);
+      background: linear-gradient(135deg, var(--magenta), var(--red));
+      box-shadow: 0 14px 34px var(--red-glow);
     }
 
     .btn:hover {
       transform: translateY(-3px);
       border-color: rgba(255,255,255,.34);
-      box-shadow: 0 12px 32px rgba(0,0,0,.24);
+    }
+
+    .btn.primary:hover {
+      box-shadow: 0 16px 40px var(--magenta-glow);
+    }
+
+    .btn:not(.primary):hover {
+      border-color: var(--purple);
+      box-shadow: 0 12px 32px var(--purple-glow);
     }
 
     .device {
@@ -403,7 +441,7 @@
       height: 100%;
       width: 0;
       border-radius: inherit;
-      background: linear-gradient(90deg, #fff, var(--red-3), var(--red));
+      background: linear-gradient(90deg, #fff, var(--color, var(--red)));
     }
 
     .meter-card.meter-visible .fill {
@@ -471,6 +509,14 @@
       border-radius: 24px;
       padding: 18px;
       background: rgba(255,255,255,.07);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .stat:hover {
+      transform: translateY(-5px);
+      border-color: var(--text-color, var(--red-3));
+      box-shadow: 0 15px 35px var(--glow-color, var(--red-glow));
     }
 
     .stat b {
@@ -478,7 +524,7 @@
       font-family: Anton, Impact, sans-serif;
       font-size: clamp(44px, 6vw, 74px);
       line-height: .9;
-      color: var(--red-3);
+      color: var(--text-color, var(--red-3));
       font-weight: 400;
     }
 
@@ -557,9 +603,23 @@
       transition: border-color .3s ease, background .3s ease, box-shadow .3s ease;
     }
 
+    .issue[data-kind="monetizacion"] {
+      --issue-accent: var(--magenta);
+      --issue-glow: var(--magenta-glow);
+    }
+    .issue[data-kind="ux"] {
+      --issue-accent: var(--amber);
+      --issue-glow: var(--amber-glow);
+    }
+    .issue[data-kind="confianza"] {
+      --issue-accent: var(--purple);
+      --issue-glow: var(--purple-glow);
+    }
+
     .issue:hover {
-      border-color: rgba(255,107,120,.48);
-      background: linear-gradient(135deg, rgba(255,36,61,.14), rgba(255,255,255,.055));
+      border-color: var(--issue-accent, rgba(255,107,120,.48));
+      background: linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.05));
+      box-shadow: 0 14px 42px var(--issue-glow, rgba(0,0,0,.2));
     }
 
     .number {
@@ -608,7 +668,7 @@
       border: 1px solid rgba(255,255,255,.14);
       background:
         radial-gradient(circle at 15% 20%, rgba(255,255,255,.2), transparent 9rem),
-        linear-gradient(135deg, rgba(255,36,61,.32), rgba(255,255,255,.06));
+        linear-gradient(135deg, var(--issue-accent, rgba(255,36,61,.32)), rgba(255,255,255,.06));
       position: relative;
       overflow: hidden;
       padding: 18px;
@@ -1425,9 +1485,44 @@
         transform: scale(.58);
       }
     }
+
+    .kicker::after {
+      content: "_";
+      animation: kickerBlink 1s infinite steps(2);
+      color: var(--magenta);
+      margin-left: 4px;
+    }
+
+    @keyframes kickerBlink {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+
+    .reveal-text {
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: bottom;
+      padding-top: 0.15em;
+      margin-top: -0.15em;
+      padding-bottom: 0.05em;
+      margin-bottom: -0.05em;
+    }
+
+    .reveal-word {
+      display: inline-block;
+      transform: translateY(100%);
+      opacity: 0;
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+    }
+
+    .reveal-word.revealed {
+      transform: translateY(0);
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
+  <div id="bg-canvas-container"></div>
   <nav class="shell nav">
     <a class="brand" href="#top" aria-label="Inicio">
       <img src="https://i.postimg.cc/wTpYKGqV/Anti-Hambreado.jpg" alt="Anti Hambreado" decoding="async">
@@ -1465,15 +1560,15 @@
               <span class="live-dot">alerta</span>
             </div>
             <div class="meter">
-              <div class="meter-card" style="--w: 94%">
+              <div class="meter-card" style="--w: 94%; --color: var(--magenta)">
                 <small><span>Enlace con vueltas</span><span>94%</span></small>
                 <div class="bar"><div class="fill"></div></div>
               </div>
-              <div class="meter-card" style="--w: 12%">
+              <div class="meter-card" style="--w: 12%; --color: var(--purple)">
                 <small><span>Paciencia del usuario</span><span>12%</span></small>
                 <div class="bar"><div class="fill"></div></div>
               </div>
-              <div class="meter-card" style="--w: 100%">
+              <div class="meter-card" style="--w: 100%; --color: var(--red)">
                 <small><span>Hambre percibida</span><span>100%</span></small>
                 <div class="bar"><div class="fill"></div></div>
               </div>
@@ -1495,10 +1590,10 @@
         <p class="section-note">Esta página es crítica editorial y humorística. No afirma delitos ni hechos privados: se centra en patrones de experiencia de usuario, monetización agresiva y la frustración de usuarios ante rutas llenas de fricción.</p>
       </div>
       <div class="stats">
-        <div class="stat"><b data-count="37">0</b><span>puntos de crítica</span></div>
-        <div class="stat"><b data-count="4">0</b><span>temas repetidos: anuncios, esperas, fricción, confianza</span></div>
-        <div class="stat"><b data-count="100">0</b><span>por ciento opinión/sátira</span></div>
-        <div class="stat"><b data-count="1">0</b><span>mensaje: no seas hambreado</span></div>
+        <div class="stat" style="--glow-color: var(--purple-glow); --text-color: var(--purple)"><b data-count="37">0</b><span>puntos de crítica</span></div>
+        <div class="stat" style="--glow-color: var(--magenta-glow); --text-color: var(--magenta)"><b data-count="4">0</b><span>temas repetidos: anuncios, esperas, fricción, confianza</span></div>
+        <div class="stat" style="--glow-color: var(--amber-glow); --text-color: var(--amber)"><b data-count="100">0</b><span>por ciento opinión/sátira</span></div>
+        <div class="stat" style="--glow-color: var(--red-glow); --text-color: var(--red)"><b data-count="1">0</b><span>mensaje: no seas hambreado</span></div>
       </div>
     </section>
 
@@ -1559,6 +1654,8 @@
             <img class="comment-shot" src="https://i.postimg.cc/WzFjfXtp/Comentario13.png" alt="Comentario de ex suscriptor 13" loading="lazy" decoding="async">
             <img class="comment-shot" src="https://i.postimg.cc/Gt8rSq9L/Comentario14.png" alt="Comentario de ex suscriptor 14" loading="lazy" decoding="async">
             <img class="comment-shot" src="https://i.postimg.cc/JzhyG0Q7/Comentario15.png" alt="Comentario de ex suscriptor 15" loading="lazy" decoding="async">
+            <img class="comment-shot" src="https://i.postimg.cc/zf50CmtQ/Comentario16.png" alt="Comentario de ex suscriptor 16" loading="lazy" decoding="async">
+            <img class="comment-shot" src="https://i.postimg.cc/q70jsfb5/Comentario17.png" alt="Comentario de ex suscriptor 17" loading="lazy" decoding="async">
           </div>
           <div class="platform-proof">
             <div class="platform-card">
@@ -1634,11 +1731,12 @@
 
 
   <script>
-    const neonTitle = document.querySelector(".title-neon");
+    let neonTitle = document.querySelector(".title-neon");
     const canFlickerTitle = neonTitle && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const randomBetween = (min, max) => Math.round(min + Math.random() * (max - min));
 
     function setNeonState(state) {
+      neonTitle = document.querySelector(".title-neon");
       if (!neonTitle) return;
       neonTitle.classList.toggle("neon-dim", state === "dim");
       neonTitle.classList.toggle("neon-off", state === "off");
@@ -1949,11 +2047,66 @@
       });
     });
 
+
+    function initTextReveal() {
+      const headers = document.querySelectorAll("h1, .section-title, .manifesto-panel h2, .red-list-title");
+      headers.forEach(header => {
+        header.classList.add("reveal-header");
+      });
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("revealed");
+            const words = entry.target.querySelectorAll(".reveal-word");
+            words.forEach((word, idx) => {
+              setTimeout(() => {
+                word.classList.add("revealed");
+              }, idx * 45);
+            });
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      document.querySelectorAll(".section-title, .manifesto-panel h2, .red-list-title").forEach(el => {
+        const text = el.textContent.trim();
+        const words = text.split(" ");
+        el.innerHTML = words.map(w => `<span class="reveal-text"><span class="reveal-word">${w}</span></span>`).join(" ");
+      });
+      
+      const h1 = document.querySelector("h1");
+      if (h1) {
+        const nodes = Array.from(h1.childNodes);
+        h1.innerHTML = "";
+        nodes.forEach(node => {
+          if (node.nodeType === Node.TEXT_NODE) {
+            const words = node.textContent.split(" ");
+            words.forEach(w => {
+              if (w.trim()) {
+                const span = document.createElement("span");
+                span.className = "reveal-text";
+                span.innerHTML = `<span class="reveal-word">${w}</span>`;
+                h1.appendChild(span);
+                h1.appendChild(document.createTextNode(" "));
+              }
+            });
+          } else if (node.nodeType === Node.ELEMENT_NODE) {
+            const span = document.createElement("span");
+            span.className = "reveal-text";
+            const clone = node.cloneNode(true);
+            clone.classList.add("reveal-word");
+            span.appendChild(clone);
+            h1.appendChild(span);
+            h1.appendChild(document.createTextNode(" "));
+          }
+        });
+      }
+
+      document.querySelectorAll(".reveal-header").forEach(el => observer.observe(el));
+    }
+
     renderIssues();
-
-
-
-
+    initTextReveal();
   </script>
 </body>
 </html>
