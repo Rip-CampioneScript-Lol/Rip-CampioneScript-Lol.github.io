@@ -1,19 +1,13 @@
-
 <!--
-██████╗░ ██╗ ██████╗░ ░░░░ ░█████╗░ ░█████╗░ ███╗░░░███╗ ██████╗░ ██╗ ░█████╗░ ███╗░░██╗ ███████╗
-██╔══██╗ ██║ ██╔══██╗ ░░░░ ██╔══██╗ ██╔══██╗ ████╗░████║ ██╔══██╗ ██║ ██╔══██╗ ████╗░██║ ██╔════╝
-██████╔╝ ██║ ██████╔╝ ░░░░ ██║░░╚═╝ ███████║ ██╔████╔██║ ██████╔╝ ██║ ██║░░██║ ██╔██╗██║ █████╗░░
-██╔══██╗ ██║ ██╔═══╝░ ░░░░ ██║░░██╗ ██╔══██║ ██║╚██╔╝██║ ██╔═══╝░ ██║ ██║░░██║ ██║╚████║ ██╔══╝░░
-██║░░██║ ██║ ██║░░░░░ ░░░░ ╚█████╔╝ ██║░░██║ ██║░╚═╝░██║ ██║░░░░░ ██║ ╚█████╔╝ ██║░╚███║ ███████╗
-╚═╝░░╚═╝ ╚═╝ ╚═╝░░░░░ ░░░░ ░╚════╝░ ╚═╝░░╚═╝ ╚═╝░░░░░╚═╝ ╚═╝░░░░░ ╚═╝ ░╚════╝░ ╚═╝░░╚══╝ ╚══════╝
-
-░██████╗ ░█████╗░ ██████╗░ ██╗ ██████╗░ ████████╗
-██╔════╝ ██╔══██╗ ██╔══██╗ ██║ ██╔══██╗ ╚══██╔══╝
-╚█████╗░ ██║░░╚═╝ ██████╔╝ ██║ ██████╔╝ ░░░██║░░░
-░╚═══██╗ ██║░░██╗ ██╔══██╗ ██║ ██╔═══╝░ ░░░██║░░░
-██████╔╝ ╚█████╔╝ ██║░░██║ ██║ ██║░░░░░ ░░░██║░░░
-╚═════╝░ ░╚════╝░ ╚═╝░░╚═╝ ╚═╝ ╚═╝░░░░░ ░░░╚═╝░░░
+██████╗░ ██╗ ██████╗░ ░░░░ ░█████╗░ ░█████╗░ ███╗░░░███╗ ██████╗░ ██╗ ░█████╗░ ███╗░░██╗ ███████╗ ░░░░░░ ░██████╗ ░█████╗░ ██████╗░ ██╗ ██████╗░ ████████╗
+██╔══██╗ ██║ ██╔══██╗ ░░░░ ██╔══██╗ ██╔══██╗ ████╗░████║ ██╔══██╗ ██║ ██╔══██╗ ████╗░██║ ██╔════╝ ░░░░░░ ██╔════╝ ██╔══██╗ ██╔══██╗ ██║ ██╔══██╗ ╚══██╔══╝
+██████╔╝ ██║ ██████╔╝ ░░░░ ██║░░╚═╝ ███████║ ██╔████╔██║ ██████╔╝ ██║ ██║░░██║ ██╔██╗██║ █████╗░░ █████╗ ╚█████╗░ ██║░░╚═╝ ██████╔╝ ██║ ██████╔╝ ░░░██║░░░
+██╔══██╗ ██║ ██╔═══╝░ ░░░░ ██║░░██╗ ██╔══██║ ██║╚██╔╝██║ ██╔═══╝░ ██║ ██║░░██║ ██║╚████║ ██╔══╝░░ ╚════╝ ░╚═══██╗ ██║░░██╗ ██╔══██╗ ██║ ██╔═══╝░ ░░░██║░░░
+██║░░██║ ██║ ██║░░░░░ ░░░░ ╚█████╔╝ ██║░░██║ ██║░╚═╝░██║ ██║░░░░░ ██║ ╚█████╔╝ ██║░╚███║ ███████╗ ░░░░░░ ██████╔╝ ╚█████╔╝ ██║░░██║ ██║ ██║░░░░░ ░░░██║░░░
+╚═╝░░╚═╝ ╚═╝ ╚═╝░░░░░ ░░░░ ░╚════╝░ ╚═╝░░╚═╝ ╚═╝░░░░░╚═╝ ╚═╝░░░░░ ╚═╝ ░╚════╝░ ╚═╝░░╚══╝ ╚══════╝ ░░░░░░ ╚═════╝░ ░╚════╝░ ╚═╝░░╚═╝ ╚═╝ ╚═╝░░░░░ ░░░╚═╝░░░
 -->
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -1691,118 +1685,49 @@
     }
 
     runNeonFlicker();
-    const svgAsset = (kind, variant) => {
-      const colors = {
-        monetizacion: ["#ff2342", "#ff9cab", "#331016", "#fff1e8", "#ffd15c"],
-        ux: ["#ff5b31", "#ffd2bd", "#2a1510", "#fff2df", "#ffca63"],
-        confianza: ["#ff2d4f", "#ffc1ca", "#281119", "#fff0e7", "#83e6c2"]
-      };
-      const [main, soft, ink, paper, accent] = colors[kind] || colors.ux;
-      const drawings = {
-        monetizacion: [
-          `<circle cx="105" cy="105" r="70" fill="${main}"/><circle cx="105" cy="105" r="50" fill="${soft}"/><text x="105" y="135" text-anchor="middle" font-family="Arial" font-size="80" font-weight="900" fill="${paper}">$</text>`,
-          `<rect x="25" y="60" width="160" height="100" rx="16" fill="${paper}"/><rect x="25" y="80" width="160" height="20" fill="${ink}"/><rect x="45" y="125" width="40" height="12" rx="4" fill="${main}"/><rect x="95" y="125" width="60" height="12" rx="4" fill="${soft}"/>`,
-          `<rect x="35" y="55" width="140" height="80" rx="12" fill="${soft}" transform="rotate(-10 105 105)"/><rect x="35" y="75" width="140" height="80" rx="12" fill="${paper}"/><circle cx="105" cy="115" r="24" fill="${main}"/><path d="M55 115h20M135 115h20" stroke="${ink}" stroke-width="8" stroke-linecap="round"/>`,
-          `<rect x="35" y="45" width="140" height="120" rx="16" fill="${paper}"/><path d="M55 135v-80M55 135h100" stroke="${ink}" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><path d="M65 115l30-40 20 20 30-50" fill="none" stroke="${main}" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/><circle cx="145" cy="45" r="16" fill="${accent}"/>`,
-          `<path d="M30 80h150v70a16 16 0 0 1-16 16H46a16 16 0 0 1-16-16V80z" fill="${ink}"/><path d="M30 80h130a16 16 0 0 0 16-16v-4H46a16 16 0 0 0-16 16v4z" fill="${soft}"/><rect x="120" y="90" width="60" height="30" rx="10" fill="${paper}"/><circle cx="160" cy="105" r="6" fill="${main}"/>`,
-          `<path d="M105 30l60 40-60 110-60-110z" fill="${main}"/><path d="M105 30l60 40H45z" fill="${soft}"/><path d="M105 30v150" stroke="${paper}" stroke-width="4"/><path d="M45 70h120" stroke="${paper}" stroke-width="4"/>`,
-          `<path d="M105 170c-40 0-60-30-60-70s20-50 60-50 60 10 60 50-20 70-60 70z" fill="${paper}"/><path d="M85 50h40v-20h-40z" fill="${ink}"/><text x="105" y="140" text-anchor="middle" font-family="Arial" font-size="60" font-weight="900" fill="${main}">$</text>`,
-          `<path d="M55 30h100v150l-16-10-16 10-18-10-18 10-16-10-16 10V30z" fill="${paper}"/><path d="M75 70h60M75 100h60M75 130h40" stroke="${ink}" stroke-width="10" stroke-linecap="round"/><circle cx="150" cy="130" r="20" fill="${main}"/><path d="M142 130l6 6 12-12" fill="none" stroke="${paper}" stroke-width="6" stroke-linecap="round"/>`,
-          `<rect x="55" y="100" width="100" height="70" rx="16" fill="${main}"/><path d="M75 100v-30a30 30 0 0 1 60 0v30" fill="none" stroke="${ink}" stroke-width="16" stroke-linecap="round"/><circle cx="105" cy="135" r="14" fill="${paper}"/>`
-        ],
-        ux: [
-          `<path d="M70 40l80 80-35 10 15 40-20 10-15-40-25 20z" fill="${paper}" stroke="${ink}" stroke-width="8" stroke-linejoin="round"/>`,
-          `<path d="M70 40h70v20l-30 40 30 40v20H70v-20l30-40-30-40z" fill="${paper}"/><path d="M70 140l30-40 30 40v20H70v-20z" fill="${main}"/><path d="M70 40h70M70 160h70" stroke="${ink}" stroke-width="14" stroke-linecap="round"/>`,
-          `<path d="M105 30l75 130H30z" fill="${accent}" stroke="${ink}" stroke-width="12" stroke-linejoin="round"/><rect x="98" y="75" width="14" height="45" rx="7" fill="${ink}"/><circle cx="105" cy="140" r="8" fill="${ink}"/>`,
-          `<path d="M105 45 A60 60 0 1 1 45 105 A20 20 0 0 0 65 85 A20 20 0 0 0 85 65 A20 20 0 0 0 105 45" fill="${paper}"/><circle cx="115" cy="85" r="9" fill="${ink}"/><circle cx="140" cy="115" r="12" fill="${ink}"/><circle cx="100" cy="135" r="10" fill="${ink}"/><circle cx="130" cy="145" r="7" fill="${ink}"/>`,
-          `<rect x="35" y="70" width="140" height="70" rx="35" fill="${main}"/><circle cx="140" cy="105" r="25" fill="${paper}"/><path d="M130 105l20 0" stroke="${ink}" stroke-width="8" stroke-linecap="round"/>`,
-          `<rect x="60" y="30" width="90" height="150" rx="16" fill="${paper}" stroke="${ink}" stroke-width="12"/><rect x="75" y="70" width="60" height="40" rx="8" fill="${main}"/><path d="M125 60l10 10M135 60l-10 10" stroke="${paper}" stroke-width="6" stroke-linecap="round"/>`,
-          `<path d="M30 105c30-40 120-40 150 0-30 40-120 40-150 0z" fill="${paper}" stroke="${ink}" stroke-width="12" stroke-linejoin="round"/><circle cx="105" cy="105" r="25" fill="${main}"/><path d="M50 50l110 110" stroke="${accent}" stroke-width="14" stroke-linecap="round"/>`,
-          `<rect x="40" y="75" width="110" height="60" rx="12" fill="${paper}" stroke="${ink}" stroke-width="12"/><path d="M150 95h10v20h-10" fill="${ink}"/><rect x="55" y="90" width="20" height="30" rx="4" fill="${main}"/>`,
-          `<path d="M105 45 A 60 60 0 1 1 45 105" fill="none" stroke="${soft}" stroke-width="20" stroke-linecap="round"/><path d="M105 45 A 60 60 0 0 1 165 105" fill="none" stroke="${main}" stroke-width="20" stroke-linecap="round"/><path d="M145 90 l20 20 l20 -20" fill="none" stroke="${main}" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>`
-        ],
-        confianza: [
-          `<path d="M105 30L45 50v50c0 40 60 80 60 80s60-40 60-80V50z" fill="${paper}"/><path d="M105 30v180c40-30 60-70 60-80V50z" fill="${soft}"/><path d="M80 105l15 15 30-30" fill="none" stroke="${main}" stroke-width="12" stroke-linecap="round"/>`,
-          `<circle cx="105" cy="105" r="60" fill="${main}"/><path d="M105 45l15 30 30 5-20 20 5 30-30-15-30 15 5-30-20-20 30-5z" fill="${accent}"/><path d="M85 105l15 15 30-30" fill="none" stroke="${paper}" stroke-width="10" stroke-linecap="round"/>`,
-          `<path d="M105 160l-50-50a35 35 0 0 1 50-50 35 35 0 0 1 50 50z" fill="${main}"/><path d="M105 160l-50-50a35 35 0 0 1 50-50v100z" fill="${soft}"/>`,
-          `<circle cx="90" cy="90" r="40" fill="${paper}" stroke="${main}" stroke-width="16"/><path d="M120 120l40 40" stroke="${ink}" stroke-width="20" stroke-linecap="round"/><path d="M75 90h30M90 75v30" stroke="${main}" stroke-width="8" stroke-linecap="round"/>`,
-          `<circle cx="65" cy="105" r="30" fill="${paper}" stroke="${ink}" stroke-width="14"/><path d="M95 105h70M145 105v25M165 105v25" stroke="${main}" stroke-width="14" stroke-linecap="round"/><circle cx="65" cy="105" r="10" fill="${ink}"/>`,
-          `<rect x="55" y="40" width="100" height="130" rx="16" fill="${paper}"/><circle cx="105" cy="85" r="24" fill="${soft}"/><path d="M75 140c0-16 16-24 30-24s30 8 30 24" fill="${soft}"/><rect x="85" y="25" width="40" height="12" rx="6" fill="${ink}"/><path d="M105 10v15" stroke="${ink}" stroke-width="8" stroke-linecap="round"/>`,
-          `<path d="M105 30l20 50 55 5-40 35 10 50-45-25-45 25 10-50-40-35 55-5z" fill="${accent}"/><path d="M105 30v140l-45 25 10-50-40-35 55-5z" fill="${soft}"/>`,
-          `<rect x="60" y="40" width="90" height="130" rx="12" fill="${paper}"/><path d="M80 70h50M80 100h50M80 130h30" stroke="${ink}" stroke-width="10" stroke-linecap="round"/><path d="M140 120l10 10 20-20" fill="none" stroke="${main}" stroke-width="10" stroke-linecap="round"/>`,
-          `<rect x="55" y="110" width="100" height="70" rx="16" fill="${paper}"/><path d="M75 110v-40a30 30 0 0 1 60 0" fill="none" stroke="${main}" stroke-width="16" stroke-linecap="round"/><circle cx="105" cy="145" r="14" fill="${ink}"/>`
-        ]
-      };
-      let body = drawings[kind][variant % drawings[kind].length];
-      
-      body = body.replace(/<(rect|circle|path|text)/g, '<$1 filter="url(#premium-3d)"');
-      
-      body = body.replace(new RegExp(`fill="${main}"`, 'g'), `fill="url(#gMain)"`);
-      body = body.replace(new RegExp(`fill="${paper}"`, 'g'), `fill="url(#gPaper)"`);
-      body = body.replace(new RegExp(`fill="${soft}"`, 'g'), `fill="url(#gSoft)"`);
-      body = body.replace(new RegExp(`fill="${accent}"`, 'g'), `fill="url(#gAccent)"`);
-      body = body.replace(new RegExp(`fill="${ink}"`, 'g'), `fill="url(#gInk)"`);
-      
-      body = body.replace(new RegExp(`stroke="${main}"`, 'g'), `stroke="url(#gMain)"`);
-      body = body.replace(new RegExp(`stroke="${paper}"`, 'g'), `stroke="url(#gPaper)"`);
-      body = body.replace(new RegExp(`stroke="${soft}"`, 'g'), `stroke="url(#gSoft)"`);
-      body = body.replace(new RegExp(`stroke="${accent}"`, 'g'), `stroke="url(#gAccent)"`);
-      body = body.replace(new RegExp(`stroke="${ink}"`, 'g'), `stroke="url(#gInk)"`);
-
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 210">
-        <defs>
-          <linearGradient id="gMain" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="${soft}" />
-            <stop offset="100%" stop-color="${main}" />
-          </linearGradient>
-          <linearGradient id="gPaper" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#ffffff" />
-            <stop offset="100%" stop-color="${paper}" />
-          </linearGradient>
-          <linearGradient id="gSoft" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#ffffff" />
-            <stop offset="100%" stop-color="${soft}" />
-          </linearGradient>
-          <linearGradient id="gAccent" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#ffffff" />
-            <stop offset="100%" stop-color="${accent}" />
-          </linearGradient>
-          <linearGradient id="gInk" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="${ink}" />
-            <stop offset="100%" stop-color="#110508" />
-          </linearGradient>
-
-          <filter id="premium-3d" x="-30%" y="-30%" width="160%" height="160%">
-            <feDropShadow dx="2" dy="10" stdDeviation="6" flood-color="${ink}" flood-opacity="0.25" result="dropShadow"/>
-            
-            <feGaussianBlur in="SourceAlpha" stdDeviation="1.5" result="blur"/>
-            <feSpecularLighting in="blur" surfaceScale="2.5" specularConstant="1.2" specularExponent="25" lighting-color="#ffffff" result="specular">
-              <fePointLight x="-20" y="-30" z="80"/>
-            </feSpecularLighting>
-            <feComposite in="specular" in2="SourceAlpha" operator="in" result="highlight"/>
-
-            <feOffset in="blur" dx="3" dy="3" result="offsetBlur"/>
-            <feComposite in="SourceAlpha" in2="offsetBlur" operator="out" result="inverseAlpha"/>
-            <feFlood flood-color="${ink}" flood-opacity="0.35" result="shadowColor"/>
-            <feComposite in="shadowColor" in2="inverseAlpha" operator="in" result="innerShadow"/>
-
-            <feComposite in="SourceGraphic" in2="highlight" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litGraphic"/>
-            <feBlend mode="multiply" in="innerShadow" in2="litGraphic" result="final3D"/>
-            
-            <feMerge>
-              <feMergeNode in="dropShadow"/>
-              <feMergeNode in="final3D"/>
-            </feMerge>
-          </filter>
-        </defs>
-        <g>${body}</g>
-      </svg>`;
-      return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
-    };
     const visualAssets = {
-      monetizacion: [0, 1, 2, 3, 4, 5, 6, 7, 8].map(index => svgAsset("monetizacion", index)),
-      ux: [0, 1, 2, 3, 4, 5, 6, 7, 8].map(index => svgAsset("ux", index)),
-      confianza: [0, 1, 2, 3, 4, 5, 6, 7, 8].map(index => svgAsset("confianza", index))
+      monetizacion: [
+        "https://clawd.rip/incident-layers/policy-0.avif",
+        "https://clawd.rip/incident-layers/policy-1.avif",
+        "https://clawd.rip/incident-layers/policy-2.avif",
+        "https://clawd.rip/incident-layers/policy-3.avif",
+        "https://clawd.rip/incident-layers/policy-4.avif",
+        "https://clawd.rip/incident-layers/policy-5.avif",
+        "https://clawd.rip/incident-layers/policy-6.avif",
+        "https://clawd.rip/incident-layers/policy-7.avif",
+        "https://clawd.rip/incident-layers/policy-8.avif",
+        "https://clawd.rip/incident-layers/legal-0.avif",
+        "https://clawd.rip/incident-layers/legal-1.avif",
+        "https://clawd.rip/incident-layers/legal-2.avif"
+      ],
+      ux: [
+        "https://clawd.rip/incident-layers/quality-0.avif",
+        "https://clawd.rip/incident-layers/quality-1.avif",
+        "https://clawd.rip/incident-layers/quality-2.avif",
+        "https://clawd.rip/incident-layers/quality-3.avif",
+        "https://clawd.rip/incident-layers/quality-4.avif",
+        "https://clawd.rip/incident-layers/quality-5.avif",
+        "https://clawd.rip/incident-layers/quality-6.avif",
+        "https://clawd.rip/incident-layers/quality-7.avif",
+        "https://clawd.rip/incident-layers/quality-8.avif",
+        "https://clawd.rip/incident-layers/reliability-0.avif",
+        "https://clawd.rip/incident-layers/reliability-1.avif",
+        "https://clawd.rip/incident-layers/reliability-2.avif"
+      ],
+      confianza: [
+        "https://clawd.rip/incident-layers/legal-3.avif",
+        "https://clawd.rip/incident-layers/legal-4.avif",
+        "https://clawd.rip/incident-layers/legal-5.avif",
+        "https://clawd.rip/incident-layers/legal-6.avif",
+        "https://clawd.rip/incident-layers/legal-7.avif",
+        "https://clawd.rip/incident-layers/legal-8.avif",
+        "https://clawd.rip/incident-layers/reliability-3.avif",
+        "https://clawd.rip/incident-layers/reliability-4.avif",
+        "https://clawd.rip/incident-layers/reliability-5.avif",
+        "https://clawd.rip/incident-layers/reliability-6.avif",
+        "https://clawd.rip/incident-layers/reliability-7.avif",
+        "https://clawd.rip/incident-layers/reliability-8.avif"
+      ]
     };
     const visualSlots = [
       [
